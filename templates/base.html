@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src ="static/bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="static/bower_components/polymer/polymer.html" />
+    <link rel="import" href="static/bower_components/paper-toolbar/paper-toolbar.html" />
+    <link rel="import" href="static/bower_components/paper-item/paper-item.html" />
+    <link rel="import" href="static/bower_components/paper-menu-button/paper-menu-button.html" />
+    <link rel="import" href="static/bower_components/iron-flex-layout/iron-flex-layout.html" />
+
+    {% block imports %} {% endblock %}
+  </head>
+  <body>
+    <style>
+    body
+      {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      paper-toolbar.main{
+        background: #7eb43e;
+      }
+      .url{
+        text-decoration:none;
+        color:#ffffff;
+
+      }
+      .facebook{
+        background: #32569E;
+      }
+
+      .twitter{
+        background: #55acee;
+      }
+
+      .sign-in-form{
+
+        padding: 100px;
+        margin: 0;
+        width: 200px;
+      }
+
+    </style>
+    <paper-toolbar class="main">
+
+      <div class="title" >ASOCIACION PROTECTORA A LA VIDA</div>
+      <a class="url" href="https://www.polymer-project.org/">
+        <paper-item raised>Registro</paper-item>
+      </a>
+      </paper-menu-button>
+      <a class="url" href="{% url 'sign-up' %}">
+        <paper-item raised>Congreso 2016</paper-item>
+      </a>
+      <a class="url" href="https://www.polymer-project.org/">
+        <paper-item raised>Nuestros aliados</paper-item>
+      </a>
+
+    </paper-toolbar>
+
+    {% block content %}	{% endblock %}
+
+</html>

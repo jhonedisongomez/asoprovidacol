@@ -1,0 +1,21 @@
+{
+  "name": "templates",
+  "authors": [
+    "jhon edison <jhon_edinson11@hotmail.com>"
+  ],
+  "description": "for asoprovida",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-item": "PolymerElements/paper-item#^1.2.1"
+  }
+}

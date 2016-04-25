@@ -1,0 +1,33 @@
+body
+  {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  paper-toolbar.main{
+    background: #7eb43e;
+  }
+  .url{
+    text-decoration:none;
+    color:#ffffff;
+
+  }
+  .facebook{
+    background: #32569E;
+  }
+
+  .twitter{
+    background: #55acee;
+  }
+
+  .sign-in-form{
+
+    padding: 100px;
+    margin: 0;
+    width: 200px;
+  }
+
+  .user-form{
+    width: 500px;
+    margin-left: 450px;
+  }

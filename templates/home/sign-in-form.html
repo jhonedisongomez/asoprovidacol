@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{%  block title %}
+INICIAR SESION
+{% endblock %}
+{% block content %}
+  {% load static from staticfiles %}
+  <link rel="import" href="../static/bower_components/paper-input/paper-input.html" />
+  <link rel="import" href="../static/bower_components/paper-icon-button/paper-icon-button.html" />
+  <link rel="import" href="../static/bower_components/iron-icons/iron-icons.html" />
+  <link rel="import" href="../static/bower_components/paper-button/paper-button.html">
+
+  {% if user.is_authenticated %}
+
+    <p>
+      hello
+    </p>
+  {% else %}
+    <div id="sign-in-form" class="user-form">
+      <p>
+        por favor ingrese los datos requeridos
+      </p>
+      <form is="iron-form">
+
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="username"label="Nombre de usuario"></paper-input>
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="password" label="Contraseña" type="password"></paper-input>
+        <paper-button raised onclick="signIn()">Ingresar</paper-button>
+        <paper-button raised onclick="">Cancelar</paper-button>
+
+      </form>
+
+      <p>
+        No estas registrado? <a href="{% url 'sign-up' %}" class="" style="color: rgb(51, 122, 183);">Registrate aqui</a>
+      </p>
+
+    </div>
+  {% endif %}
+  {% load static from staticfiles %}
+
+  <script src="{% static 'js/users/users.js' %}"></script>
+{% endblock %}

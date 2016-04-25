@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import SignUpView
+from .views import SignUpView, SignInView
 
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
 		name='logout'),
 
 	url(r'^sign-up/$' , SignUpView.as_view(),name='sign-up'),
+	url(r'^sign-in/$' , SignInView.as_view(),name='sign-in'),
 
 ]

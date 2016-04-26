@@ -3,26 +3,31 @@
 INSCRIPCIONES
 {% endblock %}
 {% block content %}
-  {% load static from staticfiles %}
   <link rel="import" href="../static/bower_components/paper-input/paper-input.html" />
   <link rel="import" href="../static/bower_components/paper-icon-button/paper-icon-button.html" />
   <link rel="import" href="../static/bower_components/iron-icons/iron-icons.html" />
   <link rel="import" href="../static/bower_components/paper-button/paper-button.html">
 
   <div id="sign-up-form" class="user-form">
-    <p>
-      por favor ingrese los datos requeridos
-    </p>
-    <form is="iron-form" id="form" method="post" action="/form/handler">
 
-      <paper-input label="Nombres"></paper-input>
-      <paper-input label="Apellidos"></paper-input>
-      <paper-input type="email" label="Correo electronico"></paper-input>
-      <paper-input disabled="disabled" label="Nombre de usuario"></paper-input>
-      <paper-input label="Contraseña"type="password"></paper-input>
-      <paper-input label="Validar Contraseña"type="password"></paper-input>
-      <paper-button raised onclick="">Registrar</paper-button>
-      <paper-button raised onclick="">Cancelar</paper-button>
+    <paper-item>Por Favor escriba los datos requeridos</paper-item>
+
+    <paper-input label="Email" id="email" type="email" required auto-validate error-message="Por favor escriba un Email valido">
+      <paper-icon-button  suffix icon="search" onclick="searchEmail()"></paper-icon-button>
+    </paper-input>
+
+    <form is="iron-form" id="sign-up-form" disabled="disabled">
+
+      <paper-input readonly="true" id="first_name" required auto-validate error-message="Por favor escriba un nombre" label="Nombres"></paper-input>
+      <paper-input readonly="true" id="last_name" required auto-validate error-message="Por favor escriba un apellido" label="Apellidos"></paper-input>
+
+
+      <paper-input readonly="true" id ="username" label="Nombre de usuario"></paper-input>
+      <paper-input readonly="true" id="password" required auto-validate error-message="Escriba una contraseña" label="Contraseña"type="password"></paper-input>
+      <paper-input readonly="true" id="again_password" required auto-validate error-message="Escriba una contraseña" label="Validar Contraseña"type="password"></paper-input>
+      <br>
+      <paper-button disabled="disabled" id="save_form" raised onclick="signUp()">Registrar</paper-button>
+      <paper-button disabled="disabled" id="cancel"raised onclick="">Cancelar</paper-button>
 
     </form>
   </div>
@@ -41,6 +46,8 @@ INSCRIPCIONES
 
   </div>
 -->
+{% load static from staticfiles %}
 
+<script src="{% static 'js/users/users.js' %}"></script>
 
 {% endblock %}

@@ -1,9 +1,15 @@
+html,body
+{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
 body
-  {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
+{
+	display: table;
+	width: 100%;
+}
   paper-toolbar.main{
     background: #7eb43e;
   }
@@ -30,4 +36,13 @@ body
   .user-form{
     width: 500px;
     margin-left: 450px;
+  }
+  .clase-general
+  {
+  	display: table-row;
+  }
+
+  footer
+  {
+  	background: #333; height: 200px;
   }

@@ -16,6 +16,7 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
   <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <script src="{% static 'js/general-functions.js' %}"></script>
 
     {% block imports %} {% endblock %}
   </head>
@@ -23,6 +24,12 @@
     <paper-toolbar class="main">
 
       <div class="title" >ASOCIACION PROTECTORA A LA VIDA</div>
+      <a class="url" href="{% url 'sign-up' %}">
+        <paper-item raised>Congreso 2016</paper-item>
+      </a>
+      <a class="url" href="{% url 'sign-up' %}">
+        <paper-item raised>Nuestros aliados</paper-item>
+      </a>
       {% if user.is_authenticated %}
 
         <a class="url" href="{% url 'logout' %}">
@@ -35,18 +42,14 @@
           <paper-item raised>Iniciar Sesión</paper-item>
         </a>
       {% endif %}
-
-
-
-      <a class="url" href="{% url 'sign-up' %}">
-        <paper-item raised>Congreso 2016</paper-item>
-      </a>
-      <a class="url" href="{% url 'sign-up' %}">
-        <paper-item raised>Nuestros aliados</paper-item>
-      </a>
-
     </paper-toolbar>
 
     {% block content %}	{% endblock %}
+    <footer class="clase-general">
+    	<p>Footer</p>
+    	{% block footer %}
 
+    	{% endblock %}
+
+    </footer>
 </html>

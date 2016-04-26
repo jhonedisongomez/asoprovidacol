@@ -3,7 +3,7 @@
 INICIAR SESION
 {% endblock %}
 {% block content %}
-  {% load static from staticfiles %}
+
   <link rel="import" href="../static/bower_components/paper-input/paper-input.html" />
   <link rel="import" href="../static/bower_components/paper-icon-button/paper-icon-button.html" />
   <link rel="import" href="../static/bower_components/iron-icons/iron-icons.html" />
@@ -16,9 +16,7 @@ INICIAR SESION
     </p>
   {% else %}
     <div id="sign-in-form" class="user-form">
-      <p>
-        por favor ingrese los datos requeridos
-      </p>
+      <paper-item>Bienvenido a nuestro portal, por favor inicia sesión</paper-item>
       <form is="iron-form">
 
         <paper-input required auto-validate error-message="no se permite espacios en blanco" name="username"label="Nombre de usuario"></paper-input>
@@ -28,9 +26,9 @@ INICIAR SESION
 
       </form>
 
-      <p>
+      <paper-item>
         No estas registrado? <a href="{% url 'sign-up' %}" class="" style="color: rgb(51, 122, 183);">Registrate aqui</a>
-      </p>
+      </paper-item>
 
     </div>
   {% endif %}

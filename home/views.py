@@ -18,31 +18,31 @@ class SignUpView(TemplateView):
     def get(self, request, *args, **kwargs):
 
         if "email" in request.GET:
-            #try:
+            try:
 
-            response_data = {}
-            message = ""
-            exist = False
-            is_error = False
-
-            email = request.GET['email']
-            user = User.objects.filter(email = email)
-
-            if user:
-
-                message = "ya existe una cuenta con este email"
-                exist = True
-
-            else:
-
-                message = "no hay una cuenta con este email, por favor registrelo"
+                response_data = {}
+                message = ""
                 exist = False
+                is_error = False
 
-            """except Exception as e:
+                email = request.GET['email']
+                user = User.objects.filter(email = email)
+
+                if user:
+
+                    message = "ya existe una cuenta con este email"
+                    exist = True
+
+                else:
+
+                    message = "no hay una cuenta con este email, por favor registrelo"
+                    exist = False
+
+            except Exception as e:
 
                 is_error = True
                 message = "error en el sistema por favor comuniquese con soporte"
-                response_data['type_error'] = type(e).__name__"""
+                response_data['type_error'] = type(e).__name__
 
             response_data['exist'] = exist
             response_data['message'] = message
@@ -70,7 +70,7 @@ class SignUpView(TemplateView):
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             email = request.POST['email']
-            username = request.POST['username']
+            username = email
             password = request.POST['password']
 
             user = User.objects.create_user(first_name = first_name,

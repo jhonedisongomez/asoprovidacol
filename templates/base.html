@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>{% block title %}{% endblock %}</title>
   <script type="text/javascript" src ="../static/bower_components/webcomponentsjs/webcomponents.js"></script>
   <link rel="import" href="../static/bower_components/polymer/polymer.html" />
@@ -23,8 +24,7 @@
   <body>
     <paper-toolbar class="main">
 
-      <div class="title" >ASOCIACION PROTECTORA A LA VIDA</div>
-      <a class="url" href="{% url 'sign-up' %}">
+      <a class="url" href="{% url 'congress' %}">
         <paper-item raised>Congreso 2016</paper-item>
       </a>
       <a class="url" href="{% url 'sign-up' %}">

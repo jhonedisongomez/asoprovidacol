@@ -25,7 +25,12 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
 
     'home',
-    #'apps.users',
+    'agenda.apps.AgendaConfig',
+    'congress.apps.CongressConfig',
+    'topics.apps.TopicsConfig',
+    'projects.apps.ProjectsConfig',
+    'rooms.apps.RoomsConfig',
+
 
 )
 

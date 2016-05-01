@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%  block title %}
+CONGRESO 2016
+{% endblock %}
+{% block content %}
+  {% load static from staticfiles %}
+  <div class="image">
+    <img src="{% static 'img/bosque.JPG' %}" alt="" class="img-congress-header" />
+  </div>
+
+  <p>
+    Extendemos la invitación al segundo congreso internacional que se llevara a cabo en la ciudad de Santiago de Cali-Colombia.
+  </p>
+
+  <p>
+    Se abarcaran temas como la agroecologia, la educacion ambiental, consecuencias del cambio climatico,
+    seguridad alimentaria entre otros, tambien se socializaran proyectos y estudios realizados
+    por profesionales de talla mundial.
+
+  </p>
+
+  <p>
+    Presentaremos actos culturales alusivos a la región como danza artistica y algunos bailes provenientes de la costa pacifica colombiana.
+  </p>
+
+{% endblock %}

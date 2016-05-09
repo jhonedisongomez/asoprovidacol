@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Topic, ActivityRoom #, RoomTopic
 
-# Register your models here.
+admin.site.register(Topic)
+admin.site.register(ActivityRoom)
+#admin.site.register(RoomTopic)

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{%  block title %}
+  Agenda del Congreso
+{% endblock %}
+{% block content %}
+  {% load static from staticfiles %}
+
+
+  {% block imports %}
+  <script src="{% static 'js/congress/congress.js' %}"></script>
+  {% endblock %}
+<paper-item raised>Agenda para los auditorios de Cali</paper-item>
+  <table cellpadding="5" cellspacing="2" border="1" id="records_table_cali" class="table table-bordered">
+      <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Tema</th>
+            <th>Ponente</th>
+
+          </tr>
+      </thead>
+      <tbody></tbody>
+  </table>
+
+  <paper-item raised>Agenda para Zarzal y Roldanillo</paper-item>
+  <table cellpadding="5" cellspacing="2" border="1" id="records_table_roldanillo" class="table table-bordered">
+      <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Tema</th>
+            <th>Ponente</th>
+
+          </tr>
+      </thead>
+      <tbody></tbody>
+  </table>
+
+  <script type="text/javascript">
+    agendaLoad();
+  </script>
+{% endblock %}

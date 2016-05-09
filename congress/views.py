@@ -7,6 +7,53 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy
 import json
 from django.contrib.auth.models import User
+from .models import signUpCongress, Congress
+from braces.views import LoginRequiredMixin
+from datetime import datetime
 
 class CongressView(TemplateView):
     template_name = 'congress/congress.html'
+    class_form = ""
+
+    def get(self, request, *args, **kwargs):
+
+        dic = {}
+        context_instance = RequestContext(request)
+        template = self.template_name
+        return render_to_response(template, dic,context_instance)
+
+    def post(self, request, *args, **kwargs):
+
+        try:
+            response_data = {}
+            message = ""
+            is_error = False
+
+            username = request.POST['username']
+            obj_user = User.objects.filter(username = username, is_active = True)
+
+            if obj_user:
+
+                date = datetime.today()
+                year = str(date.year)
+
+                obj_congress = Congress.objects.filter(year = year, active = True)
+                congress_code = obj_congress[0].congress_code
+                obj_sign_up_congress = signUpCongress()
+                obj_sign_up_congress.fk_congress_code = congress_code
+                obj_sign_up_congress.fk_user = request.user
+                obj_sign_up_congress.save()
+                message = "se ha registrado en nuestro congreso por favor revisa la agenda"
+
+        except Exception as e:
+
+            is_error = True
+            message = "error en el sistema por favor comuniquese con soporte"
+            response_data['type_error'] = type(e).__name__
+
+        response_data['message'] = message
+        response_data['is_error'] = is_error
+
+        response_json = json.dumps(response_data)
+        content_type = 'application/json'
+        return HttpResponse(response_json, content_type)

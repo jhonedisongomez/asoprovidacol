@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate,login
 from django.template import RequestContext
@@ -123,7 +124,7 @@ class SignInView(TemplateView):
                     else:
                         message = "este usuario esta desactivado por favor comuniquese con soporte"
                 else:
-                    message = "este usuario no existe en la base de datos"
+                    message = "Error en el nombre de usuario o contraseña"
             except Exception as e:
 
                 is_error = True

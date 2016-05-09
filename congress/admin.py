@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import signUpCongress, Congress
 
-# Register your models here.
+admin.site.register(signUpCongress)
+admin.site.register(Congress)

@@ -1,0 +1,43 @@
+<link rel="import" href="../paper-input/paper-input.html" />
+<link rel="import" href="../paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../iron-icons/iron-icons.html" />
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<dom-module id="sign-in-template">
+
+  <template>
+
+    <div id="sign-in-form" class="user-form">
+      <form is="iron-form">
+
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="username"label="Nombre de usuario"></paper-input>
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="password" label="Contraseña" type="password"></paper-input>
+        <paper-button raised onclick="signIn()">Ingresar</paper-button>
+        <paper-button raised onclick="">Cancelar</paper-button>
+
+      </form>
+
+      <paper-item>
+        No estas registrado? <a href="{% url 'sign-up' %}" class="" style="color: rgb(51, 122, 183);">Registrate aqui</a>
+      </paper-item>
+
+    </div>
+
+
+  </template>
+
+</dom-module>
+
+<script type="text/javascript">
+  Polymer({
+    is: "sign-in-template",
+    properties: {
+
+    },
+    ready: function()
+    {
+      
+    }
+  });
+</script>

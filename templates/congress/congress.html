@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {%  block title %}
-CONGRESO 2016
+  CONGRESO 2016
 {% endblock %}
 {% block content %}
   {% load static from staticfiles %}
-  <div class="image">
-    <img src="{% static 'img/bosque.JPG' %}" alt="" class="img-congress-header" />
-  </div>
+  <script src="{% static 'js/congress/congress.js' %}"></script>
 
   <p>
     Extendemos la invitación al segundo congreso internacional que se llevara a cabo en la ciudad de Santiago de Cali-Colombia.
@@ -22,5 +20,16 @@ CONGRESO 2016
   <p>
     Presentaremos actos culturales alusivos a la región como danza artistica y algunos bailes provenientes de la costa pacifica colombiana.
   </p>
+  {% if user.is_authenticated %}
+  <p>
+    si quieres asistir por favor <a onclick="signUpCongress()">aqui</a>   para el registro en la base de datos
+    <input type="hidden" name="username" id="username" value="{{ user.username }}" />
+  </p>
+  {% else %}
+  <p>
+    si quieres asistir por favor inicia sesion en nuestra palataforma
+  </p>
+
+  {% endif %}
 
 {% endblock %}

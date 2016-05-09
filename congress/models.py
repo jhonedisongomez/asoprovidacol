@@ -28,4 +28,4 @@ class signUpCongress(models.Model):
     fk_user = models.ForeignKey(User)
 
     def __unicode__(self):
-        return self.fk_user
+        return self.fk_user.username

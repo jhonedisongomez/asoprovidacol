@@ -7,7 +7,7 @@ html,body
 
 body
 {
-	display: table;
+	/*display: table;*/
 	width: 100%;
 }
 paper-toolbar.main{
@@ -15,8 +15,13 @@ paper-toolbar.main{
 }
 .url{
   text-decoration:none;
-  color:#ffffff;
+  color:#333;
 
+}
+
+.url-header{
+	text-decoration:none;
+	color:#ffffff;
 }
 .facebook{
   background: #32569E;
@@ -34,17 +39,19 @@ paper-toolbar.main{
 }
 
 .user-form{
-	width: 470px;
+	max-width: 470px;
 	height: auto;
 	margin: 0 auto;
 	padding: 0 1%;
 	border-radius: 5px;
-	margin-top: 30px;
-	margin-bottom: 50px;x;
+	margin-top: 80px;
+	margin-bottom: 50px;
+	padding: 0px 14%;
+
 }
 .clase-general
 {
-	display: table-row;
+
 }
 
 footer
@@ -57,10 +64,29 @@ footer
 	height: auto;
 	max-width: 100%;
 	box-shadow: 0px 5px 0 #AAA;
-	margin: -160px 0px 9px 0px;
+	margin: -100px 0px 9px 0px;
 }
 .image{
 	width: auto;
-	max-height: 500px;
+	max-height: 300px;
 	overflow: hidden;
+}
+
+paper-toolbar.drawer{
+	background: #476523;
+}
+
+#drawer{
+	background: lightgrey none repeat scroll 0% 0%;
+}
+#menu{
+	background: lightgrey none repeat scroll 0% 0%;
+}
+
+.menu-trigger{
+
+	background: white none repeat scroll 0% 0%;
+}
+paper-scroll-header-panel {
+  height: 100%;
 }

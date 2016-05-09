@@ -10,6 +10,12 @@
   <link rel="import" href="../static/bower_components/paper-item/paper-item.html" />
   <link rel="import" href="../static/bower_components/paper-menu-button/paper-menu-button.html" />
   <link rel="import" href="../static/bower_components/iron-flex-layout/iron-flex-layout.html" />
+  <link rel="import" href="../static/bower_components/paper-icon-button/paper-icon-button.html" />
+  <link rel="import" href="../static/bower_components/iron-icons/iron-icons.html" />
+  <link rel="import" href="../static/bower_components/paper-drawer-panel/paper-drawer-panel.html" />
+  <link rel="import" href="../static/bower_components/paper-menu/paper-menu.html" />
+  <link rel="import" href="../static/bower_components/paper-menu/paper-submenu.html" />
+  <link rel="import" href="../static/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" />
 
   {% load static from staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/general-styles.css' %}">
@@ -21,35 +27,81 @@
 
     {% block imports %} {% endblock %}
   </head>
-  <body>
-    <paper-toolbar class="main">
+  <body class="fullbleed layout vertical">
 
-      <a class="url" href="{% url 'congress' %}">
-        <paper-item raised>Congreso 2016</paper-item>
-      </a>
-      <a class="url" href="{% url 'sign-up' %}">
-        <paper-item raised>Nuestros aliados</paper-item>
-      </a>
-      {% if user.is_authenticated %}
+    <paper-drawer-panel class="flex">
+      <div drawer id="drawer" layout flex>
+        <paper-toolbar class="drawer">
+          <span>Opciones</span>
 
-        <a class="url" href="{% url 'logout' %}">
-          <paper-item raised>Cerrar sesion</paper-item>
-        </a>
+        </paper-toolbar>
+        <paper-menu id="menu">
 
-      {% else %}
+          <paper-submenu>
+            <paper-item class="menu-trigger">Congreso 2016</paper-item>
+            <paper-menu class="menu-content">
+              <a class="url" href="{% url 'congress' %}">
+                <paper-item>Informacion</paper-item>
+              </a>
+              <paper-item>Agenda General</paper-item>
+              <paper-item>Mi agenda</paper-item>
+              <paper-item>Nuestros Aliados</paper-item>
+            </paper-menu>
+          </paper-submenu>
 
-        <a class="url" href="{% url 'sign-in' %}">
-          <paper-item raised>Iniciar Sesión</paper-item>
-        </a>
-      {% endif %}
-    </paper-toolbar>
+          <paper-submenu>
+            <paper-item class="menu-trigger">Usuario</paper-item>
+            <paper-menu class="menu-content">
 
-    {% block content %}	{% endblock %}
-    <footer class="clase-general">
-    	<p>Footer</p>
-    	{% block footer %}
+              {% if user.is_authenticated %}
+                <a class="url" href="{% url 'logout' %}">
+                  <paper-item>Cerrar Sesion</paper-item>
+                </a>
+              {% else %}
+                <a class="url" href="{% url 'sign-in' %}">
+                  <paper-item>Iniciar Sesion</paper-item>
+                </a>
 
-    	{% endblock %}
+              {% endif %}
 
-    </footer>
+
+            </paper-menu>
+          </paper-submenu>
+
+        </paper-menu>
+
+      </div>
+      <div main>
+        <paper-scroll-header-panel class="flex">
+        <paper-toolbar class="main">
+          <paper-icon-button paper-drawer-toggle icon="menu"></paper-icon-button>
+          <a class="url-header" href="/">
+            <span title class="flex">Asoprovida Asociacion protectora a la vida</span>
+          </a>
+
+        </paper-toolbar>
+
+        <div class="image">
+          <img src="{% static 'img/bosque.JPG' %}" alt="" class="img-congress-header" />
+        </div>
+        <div class="content">
+
+          {% block content %}	{% endblock %}
+
+        </div>
+        <footer class="clase-general">
+
+        	{% block footer %}
+
+        	{% endblock %}
+
+        </footer>
+        </paper-scroll-header-panel>
+      </div>
+
+
+    </paper-drawer-panel>
+
+
+
 </html>

@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.db import models
 import uuid
 from django.contrib.auth.models import User
+#from topics.models import Topic
+from congress.models import Congress
 
 class Room(models.Model):
 
@@ -14,7 +16,7 @@ class Room(models.Model):
     fk_user_created = models.ForeignKey(User,related_name ='room_creator')
     modified_at = models.DateTimeField(null = True, blank = True)
     fk_user_modified = models.ForeignKey(User, null = True,blank = True, related_name = 'room_updater')
-    fk_congress = models.CharField(max_length = 64)
+
 
     def __unicode__(self):
         return self.room_name

@@ -15,6 +15,8 @@ from rooms.models import Room
 from congress.models import Congress
 from agenda.models import TopicAgenda
 
+from django.db.models import Count
+
 #agenda that the user did from the congress agenda
 class AgendaViewUser(TemplateView, LoginRequiredMixin):
 
@@ -76,9 +78,15 @@ class AgendaView(TemplateView):
             response_data = {}
             message = ""
             is_error = False
-            list_date = []
-            date = ""
+            list_town = {}
+            dates = []
+            list_date = {}
             after_date = ""
+            list_time = {}
+            times = []
+            schedules = []
+            list_agenda = {}
+            agendas = []
 
             date = datetime.today()
             year = date.year
@@ -86,15 +94,54 @@ class AgendaView(TemplateView):
             congress_code = obj_congress[0].congress_code
 
             #obj_congress = Congress.objects.filter(congress_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-            obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-            #print obj_activity_room
-            for index,valActRoom in enumerate(obj_activity_room):
+            obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
 
-                activity_room_code = valActRoom.activity_room_code
+            for ix_act_room, act_room in enumerate(obj_activity_room):
 
-                obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code ,active = True)
-                for ix_topic_agenda,val_top_agenda in enumerate(obj_topic_agenda):
-                    print val_top_agenda
+                list_town = {}
+                dates = []
+                times = []
+
+                counter =  act_room['counter']#count the activicy for each topic
+                room_code = act_room['fk_room_code']
+
+                obj_room = Room.objects.filter(room_code = room_code,active = True)
+                room_name = obj_room[0].room_name
+                town = obj_room[0].town
+                list_town['town'] = town
+
+                obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
+
+                for ix_act_room,val_act_room in enumerate(obj_activity_room):
+                    list_date = {}
+
+                    activity_room_code = val_act_room.activity_room_code
+                    topic_code = val_act_room.fk_topic_code
+                    obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
+                    topic_name = obj_topic[0].topic_name
+
+                    list_date['topic'] = topic_name
+
+                    obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
+                    agenda_code = obj_topic_agenda[0].fk_agenda_code
+
+                    obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
+
+                    date = str(obj_agenda[0].date)
+                    time = obj_agenda[0].schedule
+
+
+                    list_date['date'] = date
+                    list_date['time'] = time
+                    dates.append(list_date)
+
+                    after_date = date
+                list_town['schedule'] = dates
+                list_time = {}
+
+                schedules.append(list_town)
+
+
             """except Exception as e:
 
                 is_error = True
@@ -103,6 +150,8 @@ class AgendaView(TemplateView):
 
             response_data['message'] = message
             response_data['is_error'] = is_error
+            response_data['list_schedule'] = schedules
+
 
             response_json = json.dumps(response_data)
             content_type = 'application/json'

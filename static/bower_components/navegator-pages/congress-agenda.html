@@ -1,0 +1,81 @@
+<link rel="import" href="../iron-ajax/iron-ajax.html" />
+<link rel="import" href="../iron-list/iron-list.html" />
+<link rel="import" href="../paper-card/paper-card.html" />
+
+<dom-module id="congress-agenda">
+
+  <template is="dom-bind">
+    <iron-ajax url="http://localhost:8000/agenda-congreso/?load=true" last-response="{{data}}" handle-as="json" auto></iron-ajax>
+
+    <iron-list items="[[data.list_schedule]]" as="item">
+      <template>
+        <div style="padding:5px;">
+          <h2 style="margin-top: 10px;">Ciudad: [[item.town]]</h2>
+
+          <div class="">
+            <template is="dom-repeat" items="[[item.schedule]]" as ="schedule">
+              <div class="" style="margin-bottom: 50px;">
+                <paper-card heading="[[schedule.topic]]">
+                  <div class="card-content">
+                    <div class="">
+                      <h3>date:</h3>
+                      <div class="content-card">
+                        [[schedule.date]]
+                      </div>
+                    </div>
+                    <div class="">
+                      <h3>time:</h3>
+                      <div class="content-card">
+                        [[schedule.time]]
+                      </div>
+                    </div>
+                    <div class="">
+                      <h3>Descripcion:</h3>
+                    </div>
+                    <div class="">
+                      <h3>ponente:</h3>
+                    </div>
+
+                    <div class="">
+                      <h3>Lugar:</h3>
+                    </div>
+
+                    <div class="">
+                      <h3>Cupos disponibles:</h3>
+                    </div>
+
+                  </div>
+                  <div class="card-actions">
+                    <paper-button class="cupo">Reservar cupo</paper-button>
+                  </div>
+                </paper-card>
+
+              </div>
+
+            </template>
+          </div>
+
+        </div>
+
+      </template>
+    </iron-list>
+  </template>
+
+
+</dom-module>
+
+
+<script type="text/javascript">
+
+  Polymer({
+    is: "congress-agenda",
+    properties: {
+
+    },
+    ready: function()
+    {
+
+    }
+  });
+
+</script>

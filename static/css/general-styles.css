@@ -9,6 +9,7 @@ body
 {
 	/*display: table;*/
 	width: 100%;
+	background: #eee;
 }
 paper-toolbar.main{
   background: #6cb712;
@@ -44,7 +45,6 @@ paper-toolbar.main{
 	margin: 0 auto;
 	padding: 0 1%;
 	border-radius: 5px;
-	margin-top: 80px;
 	margin-bottom: 50px;
 	padding: 0px 14%;
 
@@ -89,4 +89,23 @@ paper-toolbar.drawer{
 }
 paper-scroll-header-panel {
   height: 100%;
+}
+p{
+	color: rgb(49, 62, 45);
+	font-family: "times", "courier", "arial";
+	font-size: 1.4em;
+}
+
+.paper-card-0 {
+    width: 100%;
+}
+.cupo{
+	width: 100%;
+	background: lightblue;
+}
+.paper-card-0 .card-actions {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px 16px;
+    position: relative;
+    background: lightblue;
 }

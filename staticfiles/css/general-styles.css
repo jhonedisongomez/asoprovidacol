@@ -1,0 +1,111 @@
+html,body
+{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body
+{
+	/*display: table;*/
+	width: 100%;
+	background: #eee;
+}
+paper-toolbar.main{
+  background: #6cb712;
+}
+.url{
+  text-decoration:none;
+  color:#333;
+
+}
+
+.url-header{
+	text-decoration:none;
+	color:#ffffff;
+}
+.facebook{
+  background: #32569E;
+}
+
+.twitter{
+  background: #55acee;
+}
+
+.sign-in-form{
+
+  padding: 100px;
+  margin: 0;
+  width: 200px;
+}
+
+.user-form{
+	max-width: 470px;
+	height: auto;
+	margin: 0 auto;
+	padding: 0 1%;
+	border-radius: 5px;
+	margin-bottom: 50px;
+	padding: 0px 14%;
+
+}
+.clase-general
+{
+
+}
+
+footer
+{
+	background: #333; height: 200px;
+}
+
+.img-congress-header{
+
+	height: auto;
+	max-width: 100%;
+	box-shadow: 0px 5px 0 #AAA;
+	margin: -100px 0px 9px 0px;
+}
+.image{
+	width: auto;
+	max-height: 300px;
+	overflow: hidden;
+}
+
+paper-toolbar.drawer{
+	background: #476523;
+}
+
+#drawer{
+	background: lightgrey none repeat scroll 0% 0%;
+}
+#menu{
+	background: lightgrey none repeat scroll 0% 0%;
+}
+
+.menu-trigger{
+
+	background: white none repeat scroll 0% 0%;
+}
+paper-scroll-header-panel {
+  height: 100%;
+}
+p{
+	color: rgb(49, 62, 45);
+	font-family: "times", "courier", "arial";
+	font-size: 1.4em;
+}
+
+.paper-card-0 {
+    width: 100%;
+}
+.cupo{
+	width: 100%;
+	background: lightblue;
+}
+.paper-card-0 .card-actions {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px 16px;
+    position: relative;
+    background: lightblue;
+}

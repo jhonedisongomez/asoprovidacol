@@ -11,6 +11,7 @@ class Room(models.Model):
     room_name = models.CharField(max_length = 40, blank = True, null = True)
     town = models.CharField(max_length = 40, blank = True, null = True)
     address = models.CharField(max_length = 40, blank = True, null = True)
+    capacity = models.IntegerField(blank = True, null = True)
     active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now = True,blank = False)
     fk_user_created = models.ForeignKey(User,related_name ='room_creator')

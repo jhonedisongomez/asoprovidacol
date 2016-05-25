@@ -12,7 +12,7 @@ body
 	background: #eee;
 }
 paper-toolbar.main{
-  background: #6cb712;
+  background: rgb(34, 198, 30);
 }
 .url{
   text-decoration:none;
@@ -73,19 +73,19 @@ footer
 }
 
 paper-toolbar.drawer{
-	background: #476523;
+	background: #06780b;
 }
 
 #drawer{
-	background: lightgrey none repeat scroll 0% 0%;
+	background: #d6f5ed none repeat scroll 0% 0%;
 }
 #menu{
-	background: lightgrey none repeat scroll 0% 0%;
+	background: #d6f5ed none repeat scroll 0% 0%
 }
 
 .menu-trigger{
 
-	background: white none repeat scroll 0% 0%;
+	background: #d6f5ed none repeat scroll 0% 0%;
 }
 paper-scroll-header-panel {
   height: 100%;

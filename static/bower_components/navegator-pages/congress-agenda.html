@@ -32,6 +32,7 @@
                     <div class="">
                       <h3>Descripcion:</h3>
                     </div>
+
                     <div class="">
                       <h3>ponente:</h3>
                     </div>
@@ -43,10 +44,10 @@
                     <div class="">
                       <h3>Cupos disponibles:</h3>
                     </div>
-
+                    <input type="hidden" id="agenda-[[schedule.agendaPk]]" value="[[schedule.agendaPk]]">
                   </div>
                   <div class="card-actions">
-                    <paper-button class="cupo">Reservar cupo</paper-button>
+                    <paper-button id="[[schedule.agendaPk]]" class="cupo" onclick="reservarCupo(this)">Reservar cupo</paper-button>
                   </div>
                 </paper-card>
 
@@ -76,6 +77,38 @@
     {
 
     }
-  });
 
+
+  });
+  function reservarCupo(button)
+  {
+    //get url
+    var url = document.URL;
+    var ajaxUrl = "agenda-congreso/"
+    url = url + ajaxUrl;
+
+    var csrftoken = getCookie('csrftoken');
+    //alert(document.getElementById("agendaPk").value);
+    var agendaId = button.id;
+    $.ajax({
+
+      type:'post',
+      data:{'agendaId':agendaId,'csrfmiddlewaretoken': csrftoken},
+      url: url,
+
+      success: function(response)
+      {
+        var isError = response.is_error;
+        var message = response.message;
+        if(!isError)
+        {
+          alert(message);
+        }else
+        {
+          alert(message);
+        }
+      }
+    });
+
+  }
 </script>

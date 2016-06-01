@@ -23,66 +23,56 @@ def reservarCupo(self):
     is_error = False
     message = ""
 
-    try:
+    #try:
 
-        user = self.request.user
+    user = self.request.user
 
-        if user.is_authenticated():
+    if user.is_authenticated():
 
-            agenda = self.request.POST['agendaId']
-            obj_topic_agenda = TopicAgenda.objects.filter(pk = agenda)
+        agenda = self.request.POST['agendaId']
+        obj_topic_agenda = TopicAgenda.objects.filter(pk = agenda)
 
-            fk_activity_room_code = obj_topic_agenda[0].fk_activity_room_code
-            obj_activity_room = ActivityRoom.objects.filter(activity_room_code = fk_activity_room_code,active = True)
-            room_code = obj_activity_room[0].fk_room_code
+        fk_activity_room_code = obj_topic_agenda[0].fk_activity_room_code
+        obj_activity_room = ActivityRoom.objects.filter(activity_room_code = fk_activity_room_code,active = True)
+        room_code = obj_activity_room[0].fk_room_code
 
-            obj_room = Room.objects.filter(room_code = room_code,active = True)
-            capacity = obj_room[0].capacity
+        obj_room = Room.objects.filter(room_code = room_code,active = True)
+        capacity = obj_room[0].capacity
 
-            topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
+        topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
 
-            obj_congress = Congress.objects.filter(year = year, active = True)
-            congress_code = obj_congress[0].congress_code
+        date = datetime.today()
+        year = date.year
 
-            obj_sign_up_congress = signUpCongress.objects.filter(active = True,fk_congress_code = congress_code,fk_user = user)
+        obj_congress = Congress.objects.filter(year = year, active = True)
+        congress_code = obj_congress[0].congress_code
 
-            if obj_sign_up_congress:
+        obj_sign_up_congress = signUpCongress.objects.filter(active = True,fk_congress_code = congress_code,fk_user = user)
 
-                sign_up_code = obj_sign_up_congress[0].sign_up_code
+        if obj_sign_up_congress:
 
-                obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code,fk_sign_up_code = sign_up_code)
+            sign_up_code = obj_sign_up_congress[0].sign_up_code
+
+            obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code,fk_sign_up_code = sign_up_code)
+            if obj_signUpSchedule:
+
+                message = "usted ya se inscribio a esta actividad por favor eliga otra"
+            else:
+                obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code)
                 if obj_signUpSchedule:
 
-                    message = "usted ya se inscribio a esta actividad por favor eliga otra"
-                else:
-                    obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code)
-                    if obj_signUpSchedule:
+                    obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
+                    count_sign_up = obj_signUpSchedule.count
+                    count_sign_up = len(count_sign_up)
 
-                        obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
-                        count_sign_up = obj_signUpSchedule.count
-                        count_sign_up = len(count_sign_up)
+                    if count_sign_up == capacity:
 
-                        if count_sign_up == capacity:
-
-                            message = "no se puede inscribir a esta actividad, no hay cupos"
-                        else:
-
-                            count_sign_up = obj_signUpSchedule.count
-                            count_sign_up = list(count_sign_up)
-                            count_sign_up.append(str(len(count_sign_up) + 1))
-                            count_sign_up = str(count_sign_up)
-
-                            obj_signUpSchedule = SignUpSchedule()
-                            obj_signUpSchedule.count = count_sign_up
-                            obj_signUpSchedule.fk_user_created = user
-                            obj_signUpSchedule.fk_sign_up_code = sign_up_code
-                            obj_signUpSchedule.fk_topic_agenda = topic_agenda_code
-                            obj_signUpSchedule.save()
-
-                            message = "se ha separado el cupo para este evento"
+                        message = "no se puede inscribir a esta actividad, no hay cupos"
                     else:
 
-                        count_sign_up = ['1']
+                        count_sign_up = obj_signUpSchedule.count
+                        count_sign_up = list(count_sign_up)
+                        count_sign_up.append(str(len(count_sign_up) + 1))
                         count_sign_up = str(count_sign_up)
 
                         obj_signUpSchedule = SignUpSchedule()
@@ -93,16 +83,29 @@ def reservarCupo(self):
                         obj_signUpSchedule.save()
 
                         message = "se ha separado el cupo para este evento"
-            else:
-                message = "usted no esta inscrito al evento por favor realize esta accion para separar los cupos"
-        else:
+                else:
 
-            message = "por favor inicia sesion o registrate para separar el cupo"
-    except Exception as e:
+                    count_sign_up = ['1']
+                    count_sign_up = str(count_sign_up)
+
+                    obj_signUpSchedule = SignUpSchedule()
+                    obj_signUpSchedule.count = count_sign_up
+                    obj_signUpSchedule.fk_user_created = user
+                    obj_signUpSchedule.fk_sign_up_code = sign_up_code
+                    obj_signUpSchedule.fk_topic_agenda = topic_agenda_code
+                    obj_signUpSchedule.save()
+
+                    message = "se ha separado el cupo para este evento"
+        else:
+            message = "usted no esta inscrito al evento por favor realize esta accion para separar los cupos"
+    else:
+
+        message = "por favor inicia sesion o registrate para separar el cupo"
+    """except Exception as e:
 
         is_error = True
         message = "error en reservar cupo, por favor comuniquese con soporte"
-        response_data['type_error'] = type(e).__name__
+        response_data['type_error'] = type(e).__name__"""
 
     response_data['message'] = message
     response_data['is_error'] = is_error

@@ -248,7 +248,7 @@ class AgendaView(TemplateView):
                 congress_code = obj_congress[0].congress_code
 
                 #obj_congress = Congress.objects.filter(congress_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = 'b05d4dc7-9641-4615-b622-6f06634efffe',active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
+                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = congress_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
 
                 for ix_act_room, act_room in enumerate(obj_activity_room):
 

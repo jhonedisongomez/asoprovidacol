@@ -17,19 +17,12 @@
     <p>
       Presentaremos actos culturales alusivos a la región como danza artistica y algunos bailes provenientes de la costa pacifica colombiana.
     </p>
-    {% if user.is_authenticated %}
+
     <p>
-      si quieres asistir por favor <a onclick="signUpCongress()">aqui</a>   para el registro en la base de datos
-      <input type="hidden" name="username" id="username" value="{{ user.username }}" />
-    </p>
-    {% else %}
-    <p>
-      si quieres asistir por favor inicia sesion en nuestra palataforma
+      si quieres asistir por favor clic <paper-button onclick="signUpCongress()" class="link-sign-up">aqui</paper-button>  para el registro en la base de datos
+
     </p>
 
-    {% endif %}
-
-  {% endblock %}
   </template>
 
 </dom-module>
@@ -40,5 +33,37 @@
     is:"congress-template",
     ready:function(){}
   });
+
+  function signUpCongress()
+  {
+    //get url
+    var url = document.URL;
+    var ajaxUrl = "congreso2016/"
+    url = url + ajaxUrl;
+
+    var csrftoken = getCookie('csrftoken');
+    //alert(document.getElementById("agendaPk").value);
+
+    $.ajax({
+
+      type:'post',
+      data:{'csrfmiddlewaretoken': csrftoken},
+      url: url,
+
+      success: function(response)
+      {
+        var isError = response.is_error;
+        var message = response.message;
+        if(!isError)
+        {
+          alert(message);
+        }else
+        {
+          alert(message);
+        }
+      }
+    });
+
+  }
 
 </script>

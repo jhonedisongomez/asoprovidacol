@@ -48,6 +48,7 @@
                   </div>
                   <div class="card-actions">
                     <paper-button id="[[schedule.agendaPk]]" class="cupo" onclick="reservarCupo(this)">Reservar cupo</paper-button>
+                    <paper-button id="[[schedule.agendaPk]]" class="cancel-cupo" onclick="cancelarCupo(this)">Cancelar cupo</paper-button>
                   </div>
                 </paper-card>
 
@@ -93,7 +94,38 @@
     $.ajax({
 
       type:'post',
-      data:{'agendaId':agendaId,'csrfmiddlewaretoken': csrftoken},
+      data:{'agendaId':agendaId,'method':'reservar','csrfmiddlewaretoken': csrftoken},
+      url: url,
+
+      success: function(response)
+      {
+        var isError = response.is_error;
+        var message = response.message;
+        if(!isError)
+        {
+          alert(message);
+        }else
+        {
+          alert(message);
+        }
+      }
+    });
+
+  }
+  function cancelarCupo(button)
+  {
+    //get url
+    var url = document.URL;
+    var ajaxUrl = "agenda-congreso/"
+    url = url + ajaxUrl;
+
+    var csrftoken = getCookie('csrftoken');
+    //alert(document.getElementById("agendaPk").value);
+    var agendaId = button.id;
+    $.ajax({
+
+      type:'post',
+      data:{'agendaId':agendaId,'method': 'cancelar','csrfmiddlewaretoken': csrftoken},
       url: url,
 
       success: function(response)

@@ -25,25 +25,36 @@ class CongressView(TemplateView):
     def post(self, request, *args, **kwargs):
 
         try:
+            authenticated = False
             response_data = {}
             message = ""
             is_error = False
 
-            username = request.POST['username']
-            obj_user = User.objects.filter(username = username, is_active = True)
+            user = request.user
+            #obj_user = User.objects.filter(username = username, is_active = True)
 
-            if obj_user:
+            if user.is_authenticated:
+                authenticated = True
 
                 date = datetime.today()
                 year = str(date.year)
 
                 obj_congress = Congress.objects.filter(year = year, active = True)
                 congress_code = obj_congress[0].congress_code
-                obj_sign_up_congress = signUpCongress()
-                obj_sign_up_congress.fk_congress_code = congress_code
-                obj_sign_up_congress.fk_user = request.user
-                obj_sign_up_congress.save()
-                message = "se ha registrado en nuestro congreso por favor revisa la agenda"
+
+                obj_sign_up_congress = signUpCongress.objects.filter(fk_congress_code = congress_code,fk_user = user ,active = True)
+                if obj_sign_up_congress:
+                    message = "ya estas inscrito en la base de datos"
+
+                else:
+                    obj_sign_up_congress = signUpCongress()
+                    obj_sign_up_congress.fk_congress_code = congress_code
+                    obj_sign_up_congress.fk_user = request.user
+                    obj_sign_up_congress.save()
+                    message = "se ha registrado en nuestro congreso por favor revisa la agenda"
+
+            else:
+                message = "por favor inicie sesion para regitrarte en el congreso"
 
         except Exception as e:
 

@@ -50,19 +50,22 @@
               <paper-item onclick="signInTemplate(4)">Agenda General</paper-item>
               <paper-item>Mi agenda</paper-item>
               <paper-item>Nuestros Aliados</paper-item>
+              <paper-item>Imprimir Escarapela</paper-item>
             </paper-menu>
           </paper-submenu>
 
           <paper-submenu>
-            <paper-item class="menu-trigger"><iron-icon icon="icons:menu"></iron-icon>Usuario</paper-item>
+            {% if user.is_authenticated %}
+            <paper-item class="menu-trigger"><iron-icon icon="icons:menu"></iron-icon>{{user.username}}</paper-item>
             <paper-menu class="menu-content">
 
-              {% if user.is_authenticated %}
+
                 <a class="url" href="{% url 'logout' %}">
                   <paper-item>Cerrar Sesion</paper-item>
                 </a>
               {% else %}
-
+                <paper-item class="menu-trigger"><iron-icon icon="icons:menu"></iron-icon>usuario</paper-item>
+                <paper-menu class="menu-content">
                   <paper-item onclick="signInTemplate(1)">Iniciar Sesion</paper-item>
 
 
@@ -83,7 +86,7 @@
         </paper-toolbar>
 
         <div class="image">
-          <img src="{% static 'img/bosque.jpg' %}" alt="" class="img-congress-header" />
+          <img src="{% static 'img/peresoso.jpeg' %}" alt="" class="img-congress-header" />
         </div>
         <div class="content">
 

@@ -23,13 +23,11 @@ class Agenda(models.Model):
 class SignUpSchedule(models.Model):
 
     sign_up_schedule_code = models.CharField(max_length = 64, default = uuid.uuid4)
-    count = models.IntegerField(blank = False, null = False)
-    active = models.BooleanField(default = True)
+    count = models.CharField(max_length = 2000,blank = False, null = False)
+    action = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now = True,blank = False)
     fk_user_created = models.ForeignKey(User,related_name ='sign_up_schedule_creator')
-    modified_at = models.DateTimeField(null = True, blank = True)
-    fk_user_modified = models.ForeignKey(User, null = True,blank = True, related_name = 'sign_up_schedule_updater')
-    fk_user_assistent = models.ForeignKey(User, null = True,blank = True, related_name = 'user_assitent')
+    fk_sign_up_code = models.CharField(max_length = 64)
     fk_topic_agenda = models.CharField(max_length = 64)
 
 

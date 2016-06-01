@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 #from topics.models import Topic
 from congress.models import Congress
 
+
 class Room(models.Model):
 
     room_code = models.CharField(max_length = 64, default = uuid.uuid4)

@@ -16,7 +16,7 @@ class Congress(models.Model):
     fk_user_modified = models.ForeignKey(User, null = True,blank = True, related_name = 'congress_updater')
 
     def __unicode__(self):
-        return self.year
+        return self.thopic
 
 
 class signUpCongress(models.Model):

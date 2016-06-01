@@ -43,6 +43,7 @@
 
   function signIn()
   {
+
     var getUsername = document.getElementsByName("username")[0];
     var getPassword = document.getElementsByName("password")[0];
     var validateUsername = getUsername.validate();
@@ -71,7 +72,8 @@
               alert(message);
             }else
             {
-              window.location.replace("http://localhost:8000/");
+              var url = document.URL;
+              window.location.replace(url);
             }
 
           }else{

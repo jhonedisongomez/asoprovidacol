@@ -76,7 +76,8 @@
     },
     ready: function()
     {
-      var url = document.URL;
+      var url = ""
+      url = document.URL;
       var ajaxUrl = "agenda-congreso/?load=true"
       url = url + ajaxUrl;
       this.querySelector('iron-ajax#agenda-congress').url = url
@@ -86,8 +87,8 @@
   });
   function reservarCupo(button)
   {
-    //get url
-    var url = document.URL;
+    var url = ""
+    url = document.URL;
     var ajaxUrl = "agenda-congreso/"
     url = url + ajaxUrl;
 
@@ -117,8 +118,8 @@
   }
   function cancelarCupo(button)
   {
-    //get url
-    var url = document.URL;
+    var url = ""
+    url = document.URL;
     var ajaxUrl = "agenda-congreso/"
     url = url + ajaxUrl;
 

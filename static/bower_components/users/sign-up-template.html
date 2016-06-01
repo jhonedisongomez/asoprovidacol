@@ -19,8 +19,6 @@
         <paper-input readonly="true" id="first_name" required auto-validate error-message="Por favor escriba un nombre" label="Nombres"></paper-input>
         <paper-input readonly="true" id="last_name" required auto-validate error-message="Por favor escriba un apellido" label="Apellidos"></paper-input>
 
-
-        <paper-input readonly="true" id ="username" label="Nombre de usuario"></paper-input>
         <paper-input readonly="true" id="password" required auto-validate error-message="Escriba una contraseña" label="Contraseña"type="password"></paper-input>
         <paper-input readonly="true" id="again_password" required auto-validate error-message="Escriba una contraseña" label="Validar Contraseña"type="password"></paper-input>
         <br>
@@ -28,6 +26,10 @@
         <paper-button disabled="disabled" id="cancel"raised onclick="">Cancelar</paper-button>
 
       </form>
+      <paper-item>
+        ¿Te has registrado?,
+        <spam onclick="signInTemplate(1)" class="" style="color: rgb(51, 122, 183);">Inicia Sesion</spam>
+      </paper-item>
     </div>
   </template>
 
@@ -85,9 +87,9 @@
               document.getElementById("cancel").disabled = false
               alert(message);
 
-              var nameMatch = email.match(/^([^@]*)@/);
+              /*var nameMatch = email.match(/^([^@]*)@/);
               var name = nameMatch ? nameMatch[1] : null;
-              document.getElementById("username").value = name;
+              document.getElementById("username").value = name;*/
             }
           }else
           {
@@ -104,26 +106,26 @@
     var getEmail = document.getElementById("email");
     var getFirstName = document.getElementById("first_name");
     var getLastName = document.getElementById("last_name");
-    var getUsername = document.getElementById("username");
+    //var getUsername = document.getElementById("username");
     var getPassword = document.getElementById("password");
     var getAgainPassword = document.getElementById("again_password");
 
     var validateEmail = getEmail.validate();
     var validateFirstName = getFirstName.validate();
     var validateLastName = getLastName.validate();
-    var validateUsername = getUsername.validate();
+    //var validateUsername = getUsername.validate();
     var validatePassword = getPassword.validate();
     var validateAgainPassword = getAgainPassword.validate();
 
     if(validatePassword ==validateAgainPassword)
     {
-      if(validateEmail && validateFirstName && validateLastName && validateUsername && validatePassword && validateAgainPassword)
+      if(validateEmail && validateFirstName && validateLastName && validatePassword && validateAgainPassword)
       {
 
         var email = getEmail.value;
         var firstName = getFirstName.value;
         var lastName = getLastName.value;
-        var username = getUsername.value;
+        //var username = getUsername.value;
         var password = getPassword.value;
         var csrftoken = getCookie('csrftoken');
 
@@ -133,7 +135,6 @@
           data:{'email':email,
                 'first_name':firstName,
                 'last_name':lastName,
-                'username':username,
                 'password':password,
                 'csrfmiddlewaretoken': csrftoken},
 

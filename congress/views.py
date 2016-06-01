@@ -33,7 +33,7 @@ class CongressView(TemplateView):
             user = request.user
             #obj_user = User.objects.filter(username = username, is_active = True)
 
-            if user.is_authenticated:
+            if user.is_authenticated():
                 authenticated = True
 
                 date = datetime.today()

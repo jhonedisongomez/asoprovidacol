@@ -5,7 +5,7 @@
 <dom-module id="congress-agenda">
 
   <template is="dom-bind">
-    <iron-ajax url="http://localhost:8000/agenda-congreso/?load=true" last-response="{{data}}" handle-as="json" auto></iron-ajax>
+    <iron-ajax url="" id ="agenda-congress" last-response="{{data}}" handle-as="json" auto></iron-ajax>
 
     <iron-list items="[[data.list_schedule]]" as="item">
       <template>
@@ -76,7 +76,10 @@
     },
     ready: function()
     {
-
+      var url = document.URL;
+      var ajaxUrl = "agenda-congreso/?load=true"
+      url = url + ajaxUrl;
+      this.querySelector('iron-ajax#agenda-congress').url = url
     }
 
 

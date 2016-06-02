@@ -40,10 +40,16 @@
 
                     <div class="">
                       <h3>Lugar:</h3>
+                      <div class="content-card">
+                        [[schedule.room_name]]
+                      </div>
                     </div>
 
                     <div class="">
                       <h3>Cupos disponibles:</h3>
+                      <div class="content-card">
+                        [[schedule.places]]
+                      </div>
                     </div>
                     <input type="hidden" id="agenda-[[schedule.agendaPk]]" value="[[schedule.agendaPk]]">
                   </div>
@@ -117,6 +123,9 @@
         {
           itemProgress.indeterminate = false;
           alert(message);
+          ax = document.querySelector('iron-ajax#agenda-congress');
+          console.log(ax);
+          ax.generateRequest();
         }else
         {
           itemProgress.indeterminate = false;
@@ -150,7 +159,11 @@
         var message = response.message;
         if(!isError)
         {
+          ax = document.querySelector('iron-ajax#agenda-congress');
+          console.log(ax);
+          ax.generateRequest();
           alert(message);
+
         }else
         {
           alert(message);

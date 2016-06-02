@@ -1,6 +1,7 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html" />
 <link rel="import" href="../iron-list/iron-list.html" />
 <link rel="import" href="../paper-card/paper-card.html" />
+<link rel="import" href="../paper-progress/paper-progress.html" />
 
 <dom-module id="congress-agenda">
 
@@ -46,6 +47,8 @@
                     </div>
                     <input type="hidden" id="agenda-[[schedule.agendaPk]]" value="[[schedule.agendaPk]]">
                   </div>
+                  <paper-progress id="progress-agenda-[[schedule.agendaPk]]"></paper-progress>
+
                   <div class="card-actions">
                     <paper-button id="[[schedule.agendaPk]]" class="cupo" onclick="reservarCupo(this)">Reservar cupo</paper-button>
                     <paper-button id="[[schedule.agendaPk]]" class="cancel-cupo" onclick="cancelarCupo(this)">Cancelar cupo</paper-button>
@@ -95,6 +98,10 @@
     var csrftoken = getCookie('csrftoken');
     //alert(document.getElementById("agendaPk").value);
     var agendaId = button.id;
+
+    var itemProgress = document.querySelector('paper-progress#progress-agenda-' + agendaId);
+    itemProgress.indeterminate = true;
+
     $.ajax({
 
       type:'post',
@@ -103,17 +110,22 @@
 
       success: function(response)
       {
+
         var isError = response.is_error;
         var message = response.message;
         if(!isError)
         {
+          itemProgress.indeterminate = false;
           alert(message);
         }else
         {
+          itemProgress.indeterminate = false;
           alert(message);
         }
+
       }
     });
+
 
   }
   function cancelarCupo(button)

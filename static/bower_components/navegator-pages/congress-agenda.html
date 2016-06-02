@@ -95,7 +95,7 @@
     var ajaxUrl = "agenda-congreso/"
     url = url + ajaxUrl;
 
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
     //alert(document.getElementById("agendaPk").value);
     var agendaId = button.id;
 
@@ -135,7 +135,7 @@
     var ajaxUrl = "agenda-congreso/"
     url = url + ajaxUrl;
 
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
     //alert(document.getElementById("agendaPk").value);
     var agendaId = button.id;
     $.ajax({

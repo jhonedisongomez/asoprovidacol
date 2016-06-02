@@ -127,7 +127,7 @@
         var lastName = getLastName.value;
         //var username = getUsername.value;
         var password = getPassword.value;
-        var csrftoken = getCookie('csrftoken');
+        var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
 
         $.ajax({
 

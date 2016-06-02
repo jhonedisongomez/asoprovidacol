@@ -41,7 +41,7 @@
     var ajaxUrl = "congreso2016/"
     url = url + ajaxUrl;
 
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
     //alert(document.getElementById("agendaPk").value);
 
     $.ajax({

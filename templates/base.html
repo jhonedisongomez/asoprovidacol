@@ -31,7 +31,9 @@
     {% block imports %} {% endblock %}
   </head>
   <body class="fullbleed layout vertical">
-
+    <div style="display:none">
+      <input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  </div>
     <paper-drawer-panel class="flex">
       <div drawer id="drawer" layout flex>
         <paper-toolbar class="drawer">

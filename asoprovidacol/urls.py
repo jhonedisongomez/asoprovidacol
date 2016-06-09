@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^' , include('home.urls')),
     url(r'^' , include('congress.urls')),
     url(r'^' , include('agenda.urls')),
+    url(r'^' , include('profiles.urls')),
 ]

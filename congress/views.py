@@ -4,12 +4,12 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response,redirect
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
-from django.core.urlresolvers import reverse_lazy
 import json
 from django.contrib.auth.models import User
 from .models import signUpCongress, Congress
-from braces.views import LoginRequiredMixin
 from datetime import datetime
+from profiles.models import IdCard
+
 
 class CongressView(TemplateView):
     template_name = 'congress/congress.html'
@@ -48,9 +48,16 @@ class CongressView(TemplateView):
 
                 else:
                     obj_sign_up_congress = signUpCongress()
+                    sign_up_code = obj_sign_up_congress.sign_up_code
                     obj_sign_up_congress.fk_congress_code = congress_code
                     obj_sign_up_congress.fk_user = request.user
                     obj_sign_up_congress.save()
+
+                    obj_id_card = IdCard()
+                    obj_id_card.created_at = datetime.today()
+                    obj_id_card.fk_user_created = request.user
+                    obj_id_card.fk_sign_activity_code = sign_up_code
+                    obj_id_card.save()
                     message = "se ha registrado en nuestro congreso por favor revisa la agenda"
 
             else:

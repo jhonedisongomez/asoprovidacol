@@ -49,14 +49,14 @@ paper-toolbar.main{
 	padding: 0px 14%;
 
 }
-.clase-general
-{
-
-}
 
 footer
 {
-	background: #333; height: 200px;
+	background: #333;
+	height: 200px;
+	border-top: 2px solid #000;
+	bottom: 0;
+	width: 100%;
 }
 
 .img-congress-header{
@@ -117,4 +117,10 @@ p{
 }
 .paper-progress-0{
 	width: 100%;
+}
+.content{
+	max-width: 100%;
+	margin: 0px auto;
+	background: white none repeat scroll 0% 0%;
+	/*margin-top: -20px;*/
 }

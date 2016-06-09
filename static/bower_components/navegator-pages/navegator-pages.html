@@ -4,6 +4,7 @@
 <link rel="import" href="../users/sign-in-template.html" />
 <link rel="import" href="../users/sign-up-template.html" />
 <link rel="import" href="congress-agenda.html" />
+<link rel="import" href="download-id-card.html" />
 
 <dom-module id="navegator-pages">
 
@@ -16,6 +17,7 @@
       <div><sign-up-template></sign-up-template></div>
       <div><congress-template></congress-template></div>
       <div><congress-agenda></congress-agenda></div>
+      <div><download-id-card></download-id-card></div>
 
     </iron-pages>
 
@@ -37,6 +39,19 @@
   function signInTemplate(pageNumber)
   {
     var pages = document.querySelector('iron-pages');
+    document.querySelector('paper-progress#general-progress').indeterminate = true;
+    if(pageNumber == 4)
+    {
+      var url = ""
+      url = document.URL;
+      var ajaxUrl = "agenda-congreso/?load=true"
+      url = url + ajaxUrl;
+      ajax = document.querySelector('iron-ajax#agenda-congress');
+
+      ajax.url = url
+
+    }
+    document.querySelector('paper-progress#general-progress').indeterminate = false;
     pages.select(pageNumber);
   }
 </script>

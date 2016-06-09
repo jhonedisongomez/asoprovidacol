@@ -1,12 +1,12 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html" />
 <link rel="import" href="../iron-list/iron-list.html" />
 <link rel="import" href="../paper-card/paper-card.html" />
-<link rel="import" href="../paper-progress/paper-progress.html" />
+
 
 <dom-module id="congress-agenda">
 
   <template is="dom-bind">
-    <iron-ajax url="" id ="agenda-congress" last-response="{{data}}" handle-as="json" auto></iron-ajax>
+    <iron-ajax id ="agenda-congress" last-response="{{data}}"  on-response="handleResponse" handle-as="json" auto></iron-ajax>
 
     <iron-list items="[[data.list_schedule]]" as="item">
       <template>
@@ -85,11 +85,12 @@
     },
     ready: function()
     {
-      var url = ""
+      /*var url = ""
       url = document.URL;
       var ajaxUrl = "agenda-congreso/?load=true"
       url = url + ajaxUrl;
-      this.querySelector('iron-ajax#agenda-congress').url = url
+      this.querySelector('iron-ajax#agenda-congress').url = url*/
+      
     }
 
 

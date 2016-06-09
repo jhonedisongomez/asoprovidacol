@@ -30,6 +30,7 @@ LOCAL_APPS = (
     'topics.apps.TopicsConfig',
     'projects.apps.ProjectsConfig',
     'rooms.apps.RoomsConfig',
+    'profiles.apps.ProfilesConfig'
 
 
 )

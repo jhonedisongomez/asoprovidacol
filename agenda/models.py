@@ -3,8 +3,8 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from topics.models import Topic, ActivityRoom
-from rooms.models import Room
-from congress.models import Congress
+from rooms.models import Room 
+from activities.models import Activities
 
 class Agenda(models.Model):
 
@@ -53,7 +53,7 @@ class TopicAgenda(models.Model):
         topic_code = obj_activity_room[0].fk_topic_code
         activity_code = obj_activity_room[0].fk_activity_code
 
-        obj_activity = Congress.objects.filter(congress_code =  activity_code,active = True)
+        obj_activity = Activities.objects.filter(activities_code =  activity_code,active = True)
         activity = obj_activity[0].thopic
 
         obj_room = Room.objects.filter(room_code = room_code, active = True)

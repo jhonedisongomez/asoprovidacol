@@ -12,7 +12,7 @@ from datetime import datetime
 
 from topics.models import Topic, ActivityRoom#, RoomTopic
 from rooms.models import Room
-from congress.models import Congress,signUpCongress
+from activities.models import Activities,signUpActivities
 from agenda.models import TopicAgenda, SignUpSchedule
 
 from django.db.models import Count
@@ -44,14 +44,14 @@ def reservarCupo(self):
             date = datetime.today()
             year = date.year
 
-            obj_congress = Congress.objects.filter(year = year, active = True)
-            congress_code = obj_congress[0].congress_code
+            obj_activities = Activities.objects.filter(year = year, active = True)
+            activities_code = obj_activities[0].activities_code
 
-            obj_sign_up_congress = signUpCongress.objects.filter(active = True,fk_congress_code = congress_code,fk_user = user)
+            obj_sign_up_activities = signUpActivities.objects.filter(active = True,fk_activities_code = activities_code,fk_user = user)
 
-            if obj_sign_up_congress:
+            if obj_sign_up_activities:
 
-                sign_up_code = obj_sign_up_congress[0].sign_up_code
+                sign_up_code = obj_sign_up_activities[0].sign_up_code
 
                 obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code,fk_sign_up_code = sign_up_code)
                 if obj_signUpSchedule:
@@ -131,8 +131,8 @@ def cancelarCupo(self):
 
         if user.is_authenticated():
 
-            obj_sign_up_congress = signUpCongress.objects.filter(active = True,fk_user = user)
-            sign_up_code = obj_sign_up_congress[0].sign_up_code
+            obj_sign_up_activities = signUpActivities.objects.filter(active = True,fk_user = user)
+            sign_up_code = obj_sign_up_activities[0].sign_up_code
             obj_signUpSchedule = SignUpSchedule.objects.filter(action = True,fk_topic_agenda = topic_agenda_code, fk_sign_up_code = sign_up_code)
 
             if obj_signUpSchedule:
@@ -170,10 +170,10 @@ def cancelarCupo(self):
     response_data['is_error'] = is_error
     return response_data
 
-#agenda that the user did from the congress agenda
+#agenda that the user did from the activities agenda
 class AgendaViewUser(TemplateView, LoginRequiredMixin):
 
-    template_name = "agenda/congress-agenda.html"
+    template_name = "agenda/activities-agenda.html"
     form_class = ""
     login_url = "/"
 
@@ -224,7 +224,7 @@ class AgendaViewUser(TemplateView, LoginRequiredMixin):
 #that is the general agenda with the topics and places
 class AgendaView(TemplateView):
 
-    template_name = "agenda/congress-agenda.html"
+    template_name = "agenda/activities-agenda.html"
     form_class = ""
 
     def get(self, request, *args, **kwargs):
@@ -247,11 +247,11 @@ class AgendaView(TemplateView):
 
                 date = datetime.today()
                 year = date.year
-                obj_congress = Congress.objects.filter(year = year, active = True)
-                congress_code = obj_congress[0].congress_code
+                obj_activities = Activities.objects.filter(year = year, active = True)
+                activities_code = obj_activities[0].activities_code
 
-                #obj_congress = Congress.objects.filter(congress_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = congress_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
+                #obj_activities = Activities.objects.filter(activities_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
+                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
 
                 for ix_act_room, act_room in enumerate(obj_activity_room):
 
@@ -347,4 +347,53 @@ class AgendaView(TemplateView):
         response_data = eval(method + "Cupo(self)")
         content_type = 'application/json'
         response_json = json.dumps(response_data)
+        return HttpResponse(response_json, content_type)
+
+class CreateDateView(TemplateView, LoginRequiredMixin):
+
+    template_name = "agenda/create-date.html"
+    login_url = "/"
+    form_class = ""
+
+    def get(self, request, *args, ** kwargs):
+
+        dic = {}
+        context_instance = RequestContext(request)
+        template = self.template_name
+        return render_to_response(template, dic,context_instance)
+
+    def post(self, request, *args, **kwargs):
+
+        try:
+
+            response_data = {}
+            message = ""
+            is_error = False
+
+            user = request.user
+            time = request.POST['time']
+            date = request.POST['date']
+
+            date = datetime.strptime(date , "%Y-%m-%d")
+
+            obj_agenda = Agenda()
+            obj_agenda.schedule = time
+            obj_agenda.date = date
+            obj_agenda.fk_user_created = user
+            obj_agenda.save()
+
+            message = "se ha guardado la nueva fecha en la base de datos"
+
+        except Exception as e:
+
+            is_error = True
+            message = "Error en el sistema guardando los datos, por favor comuniquese con soporte"
+            response_data['type_error'] = type(e).__name__
+
+        response_data['message'] = message
+        response_data['is_error'] = is_error
+
+
+        response_json = json.dumps(response_data)
+        content_type = 'application/json'
         return HttpResponse(response_json, content_type)

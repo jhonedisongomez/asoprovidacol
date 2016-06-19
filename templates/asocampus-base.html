@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+
+    <title>ASOCAMPUS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static from staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap.css' %}" id="bootstrap-css">
+    <style type="text/css">
+
+
+    </style>
+
+    {% load static from staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/menu-styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/asocampus-styles.css' %}">
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+
+    <script type="text/javascript">
+        window.alert = function(){};
+        var defaultCSS = document.getElementById('bootstrap-css');
+        function changeCSS(css){
+            if(css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="'+ css +'" type="text/css" />');
+            else $('head > link').filter(':first').replaceWith(defaultCSS);
+        }
+        $( document ).ready(function() {
+          var url = document.URL;
+          var iframe_height = parseInt($('html').height());
+          window.parent.postMessage( iframe_height, url);
+        });
+    </script>
+</head>
+<body>
+
+
+<div class="nav-side-menu">
+    <div class="brand">Brand Logo</div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+        <div class="menu-list">
+
+            <ul id="menu-content" class="menu-content collapse out">
+                <li>
+                  <a href="#">
+                  <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                  </a>
+                </li>
+
+                <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                  <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="products">
+                    <li class="active"><a href="#">CSS3 Animation</a></li>
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Bootstrap Model</a></li>
+                </ul>
+
+
+                <li data-toggle="collapse" data-target="#service" class="collapsed">
+                  <a href="#"><i class="fa fa-globe fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="service">
+                  <li>New Service 1</li>
+                  <li>New Service 2</li>
+                  <li>New Service 3</li>
+                </ul>
+
+
+                <li data-toggle="collapse" data-target="#new" class="collapsed">
+                  <a href="#"><i class="fa fa-university fa-lg"></i> Aulas o Auditorios <span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="new">
+                  <li>New New 1</li>
+                  <li>New New 2</li>
+                  <li>New New 3</li>
+                </ul>
+
+
+                 <li>
+                  <a href="#">
+                  <i class="fa fa-user fa-lg"></i> Profile
+                  </a>
+                  </li>
+
+
+                <li data-toggle="collapse" data-target="#thopic" class="collapsed">
+                  <a href="#"><i class="fa fa-clock-o fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="thopic">
+                  <li><a href="{% url 'create-agenda' %}">Crear fechas</a></li>
+                  <li>Editar fechas</li>
+                  <li>Crear agenda</li>
+                  <li>Editar agenda</li>
+                </ul>
+            </ul>
+     </div>
+
+</div>
+<div class="content">
+    {% block content %} {% endblock %}
+
+</div>
+  <footer class="clase-general">
+
+    {% block footer %}
+
+    {% endblock %}
+
+  </footer>
+
+</body></html>

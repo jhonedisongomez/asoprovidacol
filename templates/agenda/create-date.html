@@ -1,0 +1,109 @@
+{% extends "asocampus-base.html" %}
+{%  block title %}
+  Crear Fechas
+{% endblock %}
+{% block content %}
+  {% block imports %}
+  {% load static from staticfiles %}
+  <script src="{% static 'js/agenda/agenda.js' %}"></script>
+  <script type="text/javascript" src="../../static/bower_components/moment/min/moment.min.js"></script>
+  <script type="text/javascript" src="../../static/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="../../static/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+
+  {% endblock %}
+
+  <form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Crear fechas</legend>
+
+<div class="form-group">
+  <label class="col-md-2 control-label" for="textinput">Fecha</label>
+  <div class="col-md-4">
+
+      <div class='input-group date' id='datetimepicker-date'>
+          <input type='text' class="form-control" id="input-date"/>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+      </div>
+
+          <script type="text/javascript">
+              $(function () {
+                  $('#datetimepicker-date').datetimepicker({
+                      format: 'YYYY-MM-DD'
+                  });
+              });
+          </script>
+  </div>
+
+</div>
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-2 control-label" for="textinput">Desde</label>
+  <div class="col-md-4">
+
+      <div class='input-group date' id='datetimepicker-from-time'>
+          <input type='text' class="form-control" id="input-from-time"/>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-time"></span>
+          </span>
+      </div>
+
+          <script type="text/javascript">
+              $(function () {
+                  $('#datetimepicker-from-time').datetimepicker({
+                      format: 'LT'
+                  });
+              });
+          </script>
+  </div>
+
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-2 control-label" for="textinput">hasta</label>
+  <div class="col-md-4">
+
+      <div class='input-group date' id='datetimepicker-to-time'>
+          <input type='text' class="form-control" id="input-to-time"/>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-time"></span>
+          </span>
+      </div>
+
+          <script type="text/javascript">
+              $(function () {
+                  $('#datetimepicker-to-time').datetimepicker({
+                      format: 'LT'
+                  });
+              });
+          </script>
+  </div>
+
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 control-label" for="btn-save"></label>
+  <div class="col-md-8">
+
+    <input type="button" id="btn-save" class="btn btn-success"  value="Guardar" onclick="createDate()"></input>
+    <input type="button" id="btn-cancel" class="btn btn-danger" value="cancelar"></input>
+
+  </div>
+</div>
+<div class="form-group" >
+<label id="labelMessage" class="col-md-2 control-label" for="labelMessage"></label>
+</div>
+<input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+</fieldset>
+</form>
+
+
+
+{% endblock %}

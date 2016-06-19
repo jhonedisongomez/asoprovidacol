@@ -6,13 +6,15 @@ from django.contrib.auth import authenticate
 from django.http import HttpResponse
 import json
 from django.contrib.auth.models import User
-from .models import signUpCongress, Congress
+from .models import signUpActivities, Activities
 from datetime import datetime
 from profiles.models import IdCard
 
+from braces.views import LoginRequiredMixin
 
-class CongressView(TemplateView):
-    template_name = 'congress/congress.html'
+
+class ActivitiesView(TemplateView):
+    template_name = 'activities/activity.html'
     class_form = ""
 
     def get(self, request, *args, **kwargs):
@@ -36,22 +38,24 @@ class CongressView(TemplateView):
             if user.is_authenticated():
                 authenticated = True
 
+                activity_Code = request.POST['activity_Code']
+
                 date = datetime.today()
                 year = str(date.year)
 
-                obj_congress = Congress.objects.filter(year = year, active = True)
-                congress_code = obj_congress[0].congress_code
+                obj_activity = Activities.objects.filter(year = year, active = True)
+                activity_code = obj_activity[0].activity_code
 
-                obj_sign_up_congress = signUpCongress.objects.filter(fk_congress_code = congress_code,fk_user = user ,active = True)
-                if obj_sign_up_congress:
+                obj_sign_up_activities = signUpActivities.objects.filter(fk_activities_code = activities_code,fk_user = user ,active = True)
+                if obj_sign_up_activities:
                     message = "ya estas inscrito en la base de datos"
 
                 else:
-                    obj_sign_up_congress = signUpCongress()
-                    sign_up_code = obj_sign_up_congress.sign_up_code
-                    obj_sign_up_congress.fk_congress_code = congress_code
-                    obj_sign_up_congress.fk_user = request.user
-                    obj_sign_up_congress.save()
+                    obj_sign_up_activities = signUpActivities()
+                    sign_up_code = obj_sign_up_activities.sign_up_code
+                    obj_sign_up_activities.fk_activities_code = activities_code
+                    obj_sign_up_activities.fk_user = request.user
+                    obj_sign_up_activities.save()
 
                     obj_id_card = IdCard()
                     obj_id_card.created_at = datetime.today()
@@ -75,3 +79,37 @@ class CongressView(TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+
+
+class VerifySignUpActivity(TemplateView):
+
+    template_name = "activities/verify-sign-up-activity.html"
+    form_class = ""
+    login_url = "/"
+
+    def get(self,request,*args,**kwargs):
+
+        if sign_up_code in request.GET:
+
+            print "devolver si esta registrado o no "
+        else:
+
+            print "devolver pagina"
+
+
+"""class NewActivity(TemplateView, LoginRequiredMixin)
+
+
+    template_name = "activities/new-activity-form.html"
+    form_class =""
+    login_url = "/"
+
+
+    def post(self, request, *args, **kwargs):
+
+        response_data = {}
+        message = ""
+        is_error = False
+
+
+        obj_"""

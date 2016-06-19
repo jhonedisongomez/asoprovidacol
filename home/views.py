@@ -145,3 +145,7 @@ class SignInView(TemplateView):
             context_instance = RequestContext(request)
             template = self.template_name
             return render_to_response(template, dic,context_instance)
+
+
+class AsocampusIndex(TemplateView):
+    template_name = "asocampus-base.html"

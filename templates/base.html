@@ -89,10 +89,7 @@
         </paper-toolbar>
         <paper-progress id="general-progress"></paper-progress>
 
-        <div class="image">
-          <img src="{% static 'img/peresoso.jpeg' %}" alt="" class="img-congress-header" />
-        </div>
-        <div class="content">
+        <div class="content" style="background: transparent url({% static 'img/pattern.png' %}) ">
 
           {% block content %}	{% endblock %}
           <navegator-pages></navegator-pages>

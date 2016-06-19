@@ -22,7 +22,7 @@ from reportlab.lib.units import mm
 
 #from topics.models import Topic, ActivityRoom#, RoomTopic
 #from rooms.models import Room
-from congress.models import Congress,signUpCongress
+from activities.models import Activities,signUpActivities
 #from agenda.models import TopicAgenda, SignUpSchedule
 
 class DownloadIdCardPdfView(TemplateView):
@@ -104,7 +104,7 @@ class SearchIdCardPdfView(TemplateView):
             if user.is_authenticated():
 
                 is_authenticated = True
-                obj_sign_up_activity = signUpCongress.objects.filter(fk_user = user, active = True)
+                obj_sign_up_activity = signUpActivities.objects.filter(fk_user = user, active = True)
                 if obj_sign_up_activity:
                     is_sign_up = True
                     sign_up_activity_code = obj_sign_up_activity[0].sign_up_code

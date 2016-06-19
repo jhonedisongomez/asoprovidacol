@@ -26,11 +26,13 @@ LOCAL_APPS = (
 
     'home',
     'agenda.apps.AgendaConfig',
-    'congress.apps.CongressConfig',
     'topics.apps.TopicsConfig',
     'projects.apps.ProjectsConfig',
     'rooms.apps.RoomsConfig',
-    'profiles.apps.ProfilesConfig'
+    'profiles.apps.ProfilesConfig',
+    'pages.apps.PagesConfig',
+    'country.apps.CountryConfig',
+    'activities.apps.ActivitiesConfig',
 
 
 )

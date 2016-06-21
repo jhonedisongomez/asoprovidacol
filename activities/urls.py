@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^activities/$', ActivitiesView.as_view(),name='activities'),
 
 
+
 ]

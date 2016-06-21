@@ -1,0 +1,65 @@
+{% extends "asocampus-base.html" %}
+{%  block title %}
+  Crear Fechas
+{% endblock %}
+{% block content %}
+  {% block imports %}
+  {% load static from staticfiles %}
+  <script src="{% static 'js/activities/activities.js' %}"></script>
+
+  <form class="form-horizontal" id="create-activity-room">
+  <fieldset>
+
+  <!-- Form Name -->
+  <legend>Crear temas por salon</legend>
+
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="room">Auditorios</label>
+    <div class="col-md-4">
+      {{form.rooms}}
+    </div>
+  </div>
+
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="activity">Eventos</label>
+    <div class="col-md-4">
+      {{form.activities}}
+    </div>
+  </div>
+
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="topic">Temas</label>
+    <div class="col-md-4">
+      {{form.topics}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="btn-save"></label>
+    <div class="col-md-8">
+
+      <input type="button" id="btn-save" class="btn btn-success"  value="Guardar" onclick="createActivityRoom()"></input>
+      <input type="button" id="btn-cancel" class="btn btn-danger" value="cancelar"></input>
+
+    </div>
+    <div class="form-group" >
+    <label id="labelMessage" class="col-md-4 control-label" for="labelMessage"></label>
+    </div>
+  </div>
+
+  <input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+  </fieldset>
+  </form>
+
+
+  {% endblock %}
+
+
+
+
+{% endblock %}

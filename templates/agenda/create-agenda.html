@@ -1,0 +1,57 @@
+{% extends "asocampus-base.html" %}
+{%  block title %}
+  Crear Fechas
+{% endblock %}
+{% block content %}
+  {% block imports %}
+  {% load static from staticfiles %}
+  <script src="{% static 'js/agenda/agenda.js' %}"></script>
+
+  <form class="form-horizontal" id="create-agenda">
+  <fieldset>
+
+  <!-- Form Name -->
+  <legend>Crear agenda del evento</legend>
+
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="room">Ponencias por temas</label>
+    <div class="col-md-4">
+      {{form.activity_rooms}}
+    </div>
+  </div>
+
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="activity">Horario</label>
+    <div class="col-md-4">
+      {{form.agendas}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" for="btn-save"></label>
+    <div class="col-md-8">
+
+      <input type="button" id="btn-save" class="btn btn-success"  value="Guardar" onclick="createAgenda()"></input>
+      <input type="button" id="btn-cancel" class="btn btn-danger" value="cancelar"></input>
+
+    </div>
+    <div class="form-group" >
+    <label id="labelMessage" class="col-md-4 control-label" for="labelMessage"></label>
+    </div>
+  </div>
+
+  <input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+  </fieldset>
+  </form>
+
+
+  {% endblock %}
+
+
+
+
+{% endblock %}

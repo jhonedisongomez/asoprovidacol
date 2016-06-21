@@ -13,7 +13,8 @@ from datetime import datetime
 from topics.models import Topic, ActivityRoom#, RoomTopic
 from rooms.models import Room
 from activities.models import Activities,signUpActivities
-from agenda.models import TopicAgenda, SignUpSchedule
+from agenda.models import TopicAgenda
+from .forms import CreateAgendaForm
 
 from django.db.models import Count
 
@@ -231,98 +232,103 @@ class AgendaView(TemplateView):
 
         if "load" in request.GET:
 
-            try:
-                response_data = {}
-                message = ""
-                is_error = False
+            #try:
+            response_data = {}
+            message = ""
+            is_error = False
+            list_town = {}
+            dates = []
+            list_date = {}
+            after_date = ""
+            list_time = {}
+            times = []
+            schedules = []
+            list_agenda = {}
+            agendas = []
+
+            date = datetime.today()
+            year = date.year
+            obj_activities = Activities.objects.filter(year = year, active = True)
+            activities_code = obj_activities[0].activities_code
+
+            #obj_activities = Activities.objects.filter(activities_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
+            obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
+
+            for ix_act_room, act_room in enumerate(obj_activity_room):
+
                 list_town = {}
                 dates = []
-                list_date = {}
-                after_date = ""
-                list_time = {}
                 times = []
-                schedules = []
-                list_agenda = {}
-                agendas = []
 
-                date = datetime.today()
-                year = date.year
-                obj_activities = Activities.objects.filter(year = year, active = True)
-                activities_code = obj_activities[0].activities_code
+                counter =  act_room['counter']#count the activicy for each topic
 
-                #obj_activities = Activities.objects.filter(activities_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
+                room_code = act_room['fk_room_code']
 
-                for ix_act_room, act_room in enumerate(obj_activity_room):
+                obj_room = Room.objects.filter(room_code = room_code,active = True)
+                room_name = obj_room[0].room_name
+                capacity = obj_room[0].capacity
 
-                    list_town = {}
-                    dates = []
-                    times = []
+                town = obj_room[0].town
+                list_town['town'] = town
 
-                    counter =  act_room['counter']#count the activicy for each topic
+                obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
 
-                    room_code = act_room['fk_room_code']
+                for ix_act_room,val_act_room in enumerate(obj_activity_room):
+                    list_date = {}
 
-                    obj_room = Room.objects.filter(room_code = room_code,active = True)
-                    room_name = obj_room[0].room_name
-                    capacity = obj_room[0].capacity
+                    activity_room_code = val_act_room.activity_room_code
+                    topic_code = val_act_room.fk_topic_code
+                    obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
+                    topic_name = obj_topic[0].topic_name
 
-                    town = obj_room[0].town
-                    list_town['town'] = town
+                    list_date['topic'] = topic_name
 
-                    obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
+                    obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
+                    agenda_topic_pk = obj_topic_agenda[0].pk
+                    topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
+                    agenda_code = obj_topic_agenda[0].fk_agenda_code
 
-                    for ix_act_room,val_act_room in enumerate(obj_activity_room):
-                        list_date = {}
+                    obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
+                    obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
+                    if obj_signUpSchedule:
 
-                        activity_room_code = val_act_room.activity_room_code
-                        topic_code = val_act_room.fk_topic_code
-                        obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
-                        topic_name = obj_topic[0].topic_name
+                        obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
 
-                        list_date['topic'] = topic_name
+                        place = obj_signUpSchedule.count
+                        place = list(place)
+                        place = len(place)
 
-                        obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
-                        agenda_topic_pk = obj_topic_agenda[0].pk
-                        topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
-                        agenda_code = obj_topic_agenda[0].fk_agenda_code
+                    else:
 
-                        obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
-                        obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
-                        if obj_signUpSchedule:
+                        place = 0
 
-                            obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
+                    place = place - capacity
+                else:
+                    place = capacity
 
-                            place = obj_signUpSchedule.count
-                            place = list(place)
-                            place = len(place)
-                            place = place - capacity
-                        else:
-                            place = capacity
+                date = str(obj_agenda[0].date)
+                time = obj_agenda[0].schedule
 
-                        date = str(obj_agenda[0].date)
-                        time = obj_agenda[0].schedule
+                list_date['date'] = date
+                list_date['time'] = time
+                list_date['agendaPk'] = agenda_topic_pk
+                list_date['room_name'] = room_name
+                list_date['places'] = place
 
-                        list_date['date'] = date
-                        list_date['time'] = time
-                        list_date['agendaPk'] = agenda_topic_pk
-                        list_date['room_name'] = room_name
-                        list_date['places'] = place
+                dates.append(list_date)
 
-                        dates.append(list_date)
+                after_date = date
+            list_town['schedule'] = dates
+            list_time = {}
 
-                        after_date = date
-                    list_town['schedule'] = dates
-                    list_time = {}
-
-                    schedules.append(list_town)
+            schedules.append(list_town)
 
 
-            except Exception as e:
+            """except Exception as e:
 
                 is_error = True
                 message = "error en el sistema por favor comuniquese con soporte"
-                response_data['type_error'] = type(e).__name__
+                response_data['type_error'] = type(e).__name__"""
 
             response_data['message'] = message
             response_data['is_error'] = is_error
@@ -383,6 +389,59 @@ class CreateDateView(TemplateView, LoginRequiredMixin):
             obj_agenda.save()
 
             message = "se ha guardado la nueva fecha en la base de datos"
+
+        except Exception as e:
+
+            is_error = True
+            message = "Error en el sistema guardando los datos, por favor comuniquese con soporte"
+            response_data['type_error'] = type(e).__name__
+
+        response_data['message'] = message
+        response_data['is_error'] = is_error
+
+
+        response_json = json.dumps(response_data)
+        content_type = 'application/json'
+        return HttpResponse(response_json, content_type)
+
+class CreateAgendaView(TemplateView, LoginRequiredMixin):
+
+    template_name = "agenda/create-agenda.html"
+    form_class = CreateAgendaForm()
+    login_url = "/"
+
+    def get(self, request, *args, **kwargs):
+
+        dic = {'form': self.form_class}
+        context_instance = RequestContext(request)
+        template = self.template_name
+        return render_to_response(template, dic,context_instance)
+
+
+    def post(self, request, *args, **kwargs):
+
+        try:
+
+            response_data = {}
+            message = ""
+            is_error = False
+
+            agenda_pk = request.POST['agenda_pk']
+            obj_agenda = Agenda.objects.filter(pk = agenda_pk)
+            agenda_code = obj_agenda[0].agenda_code
+
+            activity_room_pk = request.POST['activity_room_pk']
+            obj_activity_room = ActivityRoom.objects.filter(pk = activity_room_pk)
+            activity_room_code = obj_activity_room[0].activity_room_code
+
+            user = request.user
+            obj_topic_agenda = TopicAgenda()
+            obj_topic_agenda.fk_agenda_code = agenda_code
+            obj_topic_agenda.fk_activity_room_code = activity_room_code
+            obj_topic_agenda.fk_user_created = user
+            obj_topic_agenda.save()
+
+            message = "se ha guardado en la base de datos"
 
         except Exception as e:
 

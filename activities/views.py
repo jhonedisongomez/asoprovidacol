@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .models import signUpActivities, Activities
 from datetime import datetime
 from profiles.models import IdCard
+from topics.models import ActivityRoom
 
 from braces.views import LoginRequiredMixin
 

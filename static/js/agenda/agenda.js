@@ -39,3 +39,39 @@ function createDate()
 
   })
 }
+
+function createAgenda()
+{
+  var activityRoomPk = document.getElementById("id_activity_rooms").value;
+  var agendaPk = document.getElementById("id_agendas").value;
+  var cfrsTocken = document.getElementById("csrfmiddlewaretoken").value;
+
+  $.ajax({
+
+    type: 'post',
+    data: {'activity_room_pk': activityRoomPk, 'agenda_pk':agendaPk ,'csrfmiddlewaretoken':cfrsTocken},
+    url: '/asocampus/crear-agenda/',
+    success: function(response){
+
+      var message = response.message;
+      var isError = response.is_error;
+      var label = document.getElementById("labelMessage");
+
+      if(!isError)
+      {
+        label.innerText = message;
+        document.getElementById("create-agenda").reset();
+
+
+
+      }else
+      {
+        label.innerText = message;
+      }
+
+
+    }
+
+
+  })
+}

@@ -33,7 +33,7 @@ class ActivityRoom(models.Model):
 
     def __unicode__(self):
 
-        obj_activity = Activities.objects.filter(congress_code = self.fk_activity_code, active = True)
+        obj_activity = Activities.objects.filter(activities_code = self.fk_activity_code, active = True)
         activity = obj_activity[0].thopic
 
         obj_room = Room.objects.filter(room_code = self.fk_room_code,active = True)

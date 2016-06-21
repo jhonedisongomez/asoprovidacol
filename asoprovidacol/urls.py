@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^' , include('activities.urls')),
     url(r'^' , include('agenda.urls')),
     url(r'^asocampus/' , include('agenda.urls')),
+    url(r'^asocampus/' , include('topics.urls')),
     url(r'^' , include('profiles.urls')),
 ]

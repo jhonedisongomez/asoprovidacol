@@ -34,7 +34,7 @@ class ActivityRoom(models.Model):
     def __unicode__(self):
 
         obj_activity = Activities.objects.filter(activities_code = self.fk_activity_code, active = True)
-        activity = obj_activity[0].thopic
+        activity = obj_activity[0].thopic_name
 
         obj_room = Room.objects.filter(room_code = self.fk_room_code,active = True)
         room_name = obj_room[0].room_name

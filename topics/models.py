@@ -45,4 +45,4 @@ class ActivityRoom(models.Model):
             return activity + " - " + topic_name + " - " + room_name
         else:
 
-            return activity_room_code
+            return self.activity_room_code

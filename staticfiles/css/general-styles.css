@@ -10,6 +10,13 @@ body
 	/*display: table;*/
 	width: 100%;
 	background: #eee;
+
+	background-image: url("http://localhost:8000/static/img/peresoso.jpeg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color: #464646;
+	background-size: cover;
 }
 paper-toolbar.main{
   background: rgb(34, 198, 30);
@@ -55,8 +62,10 @@ footer
 	background: #333;
 	height: 200px;
 	border-top: 2px solid #000;
-	bottom: 0;
 	width: 100%;
+	height: 200px;
+	position: sticky;
+	bottom: 0;
 }
 
 .img-congress-header{
@@ -115,6 +124,12 @@ p{
     position: relative;
     background: white;
 }
+.paper-card-0 .card-content {
+    padding: 16px;
+    position: relative;
+    font-size: x-large;
+}
+
 .paper-progress-0{
 	width: 100%;
 }
@@ -122,6 +137,6 @@ p{
 	max-width: 100%;
 	margin: 0px auto;
 	background: white none repeat scroll 0% 0%;
-	height: 100%;
+	position: initial;
 	/*margin-top: -20px;*/
 }

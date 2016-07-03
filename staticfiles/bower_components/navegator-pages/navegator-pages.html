@@ -39,7 +39,6 @@
   function signInTemplate(pageNumber)
   {
     var pages = document.querySelector('iron-pages');
-    document.querySelector('paper-progress#general-progress').indeterminate = true;
     if(pageNumber == 4)
     {
       var url = ""
@@ -51,7 +50,6 @@
       ajax.url = url
 
     }
-    document.querySelector('paper-progress#general-progress').indeterminate = false;
     pages.select(pageNumber);
   }
 </script>

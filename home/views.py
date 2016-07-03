@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy
 import json
 from django.contrib.auth.models import User
+from braces.views import LoginRequiredMixin
 
 class IndexView(TemplateView):
     template_name = 'home/index.html'
@@ -147,5 +148,6 @@ class SignInView(TemplateView):
             return render_to_response(template, dic,context_instance)
 
 
-class AsocampusIndex(TemplateView):
+class AsocampusIndex(LoginRequiredMixin,TemplateView):
     template_name = "asocampus-base.html"
+    login_url = '/index/'

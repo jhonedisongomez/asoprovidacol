@@ -3,7 +3,7 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 from topics.models import Topic, ActivityRoom
-from rooms.models import Room 
+from rooms.models import Room
 from activities.models import Activities
 
 class Agenda(models.Model):

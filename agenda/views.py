@@ -472,41 +472,41 @@ class ListScheduleView(TemplateView):
         is_error = False
         response_data = {}
         list_agenda = []
-        #try:
+        try:
 
-        room_id = request.GET['room_pk']
+            room_id = request.GET['room_pk']
 
-        obj_room = Room.objects.filter(pk = room_id)
-        room_code = obj_room[0].room_code
+            obj_room = Room.objects.filter(pk = room_id)
+            room_code = obj_room[0].room_code
 
-        obj_activity_room = ActivityRoom.objects.filter(active = True, fk_room_code = room_code)
-        if(obj_activity_room):
+            obj_activity_room = ActivityRoom.objects.filter(active = True, fk_room_code = room_code)
+            if(obj_activity_room):
 
-            for index,valActRoom in enumerate(obj_activity_room):
+                for index,valActRoom in enumerate(obj_activity_room):
 
-                agenda_data = {}
-                activity_room_code = valActRoom.activity_room_code
-                print activity_room_code
-                obj_topic_agenda = TopicAgenda.objects.filter(active = True, fk_activity_room_code = activity_room_code)
-                print obj_topic_agenda
-                agenda_code = obj_topic_agenda[0].fk_agenda_code
-                obj_agenda = Agenda.objects.filter(agenda_code = agenda_code, active = True)
+                    agenda_data = {}
+                    activity_room_code = valActRoom.activity_room_code
+                    print activity_room_code
+                    obj_topic_agenda = TopicAgenda.objects.filter(active = True, fk_activity_room_code = activity_room_code)
+                    print obj_topic_agenda
+                    agenda_code = obj_topic_agenda[0].fk_agenda_code
+                    obj_agenda = Agenda.objects.filter(agenda_code = agenda_code, active = True)
 
-                date = str(obj_agenda[0].date) + "/" + str(obj_agenda[0].schedule)
-                agenda_data['agenda_pk'] = obj_agenda[0].pk
-                agenda_data['date'] = date
-                list_agenda.append(agenda_data)
+                    date = str(obj_agenda[0].date) + "/" + str(obj_agenda[0].schedule)
+                    agenda_data['agenda_pk'] = obj_agenda[0].pk
+                    agenda_data['date'] = date
+                    list_agenda.append(agenda_data)
 
-        else:
+            else:
 
 
-            message = "no existen datos"
+                message = "no existen datos"
 
-        """except Exception as e:
+        except Exception as e:
 
             is_error = True
             message = "error en el sistema listando los horarios, por favor comuniquese con soporte"
-            response_data['type_error'] = type(e).__name__"""
+            response_data['type_error'] = type(e).__name__
 
         response_data['message'] = message
         response_data['is_error'] = is_error

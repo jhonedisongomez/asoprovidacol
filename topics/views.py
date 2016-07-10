@@ -62,3 +62,36 @@ class CreateActivity(TemplateView, LoginRequiredMixin):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+
+
+class CreateTopicView(LoginRequiredMixin, TemplateView):
+
+    template_name = "topics/create-topic.html"
+    login_url = "/index/"
+
+    def post(self, request, *args, **kwargs):
+
+        response_data = {}
+        message = ""
+        is_error = False
+
+        topic_name = request.POST['topic_name']
+        professor_name = request.POST['professor_name']
+        description = request.POST['description']
+        user = request.user
+        obj_topic = Topic()
+        obj_topic.topic_name = topic_name
+        obj_topic.professor_name = professor_name
+        obj_topic.description = description
+        obj_topic.fk_user_created = user
+        obj_topic.save()
+
+        message = "se ha guardado un tema en la base de datos"
+
+
+        response_data['message'] = message
+        response_data['is_error'] = is_error
+
+        response_json = json.dumps(response_data)
+        content_type = 'application/json'
+        return HttpResponse(response_json, content_type)

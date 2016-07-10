@@ -29,6 +29,23 @@
   <script src="{% static 'js/jquery-ui.js' %}"></script>
   <script src="{% static 'js/general-functions.js' %}"></script>
 
+<style media="screen">
+  body
+  {
+    /*display: table;*/
+    width: 100%;
+    background: #eee;
+
+    background-image: url("{% static 'img/peresoso.jpeg' %}");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #464646;
+    background-size: cover;
+  }
+
+</style>
+
     {% block imports %} {% endblock %}
   </head>
   <body class="fullbleed layout vertical">

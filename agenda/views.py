@@ -233,106 +233,101 @@ class AgendaView(TemplateView):
 
         if "load" in request.GET:
 
-            #try:
-            response_data = {}
-            message = ""
-            is_error = False
-            list_town = {}
-            dates = []
-            list_date = {}
-            after_date = ""
-            list_time = {}
-            times = []
-            schedules = []
-            list_agenda = {}
-            agendas = []
-
-            date = datetime.today()
-            year = date.year
-            obj_activities = Activities.objects.filter(year = year, active = True)
-            activities_code = obj_activities[0].activities_code
-
-            #obj_activities = Activities.objects.filter(activities_code = '3487ff79-7415-4317-8756-44a9c285a12c',active = True)
-            obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
-
-            for ix_act_room, act_room in enumerate(obj_activity_room):
-
+            try:
+                response_data = {}
+                message = ""
+                is_error = False
                 list_town = {}
                 dates = []
+                list_date = {}
+                after_date = ""
+                list_time = {}
                 times = []
+                schedules = []
+                list_agenda = {}
+                agendas = []
 
-                counter =  act_room['counter']#count the activicy for each topic
+                date = datetime.today()
+                year = date.year
+                obj_activities = Activities.objects.filter(year = year, active = True)
+                activities_code = obj_activities[0].activities_code
 
-                room_code = act_room['fk_room_code']
+                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
 
-                obj_room = Room.objects.filter(room_code = room_code,active = True)
-                room_name = obj_room[0].room_name
-                capacity = obj_room[0].capacity
+                for ix_act_room, act_room in enumerate(obj_activity_room):
 
-                section_code = obj_room[0].fk_section_code
+                    list_town = {}
+                    dates = []
+                    times = []
 
-                obj_section = section.objects.filter(section_code = section_code, active = True)
-                town = obj_section[0].section_name
+                    counter =  act_room['counter']#count the activicy for each topic
 
-                list_town['town'] = town
+                    room_code = act_room['fk_room_code']
 
-                obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
+                    obj_room = Room.objects.filter(room_code = room_code,active = True)
+                    room_name = obj_room[0].room_name
+                    capacity = obj_room[0].capacity
 
-                for ix_act_room,val_act_room in enumerate(obj_activity_room):
-                    list_date = {}
+                    section_code = obj_room[0].fk_section_code
 
-                    activity_room_code = val_act_room.activity_room_code
-                    topic_code = val_act_room.fk_topic_code
-                    obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
-                    topic_name = obj_topic[0].topic_name
+                    obj_section = section.objects.filter(section_code = section_code, active = True)
+                    town = obj_section[0].section_name
 
-                    list_date['topic'] = topic_name
+                    list_town['town'] = town
 
-                    obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
-                    agenda_topic_pk = obj_topic_agenda[0].pk
-                    topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
-                    agenda_code = obj_topic_agenda[0].fk_agenda_code
+                    obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
 
-                    obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
-                    obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
-                    if obj_signUpSchedule:
+                    for ix_act_room,val_act_room in enumerate(obj_activity_room):
+                        list_date = {}
 
-                        obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
+                        activity_room_code = val_act_room.activity_room_code
+                        topic_code = val_act_room.fk_topic_code
+                        obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
+                        topic_name = obj_topic[0].topic_name
 
-                        place = obj_signUpSchedule.count
-                        place = eval(place)
-                        place = len(place)
+                        list_date['topic'] = topic_name
 
-                    else:
-                        place = 0
+                        obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
+                        agenda_topic_pk = obj_topic_agenda[0].pk
+                        topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
+                        agenda_code = obj_topic_agenda[0].fk_agenda_code
 
-                    place = capacity - place
+                        obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
+                        obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
+                        if obj_signUpSchedule:
 
-                #place = capacity
+                            obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
 
-                date = str(obj_agenda[0].date)
-                time = obj_agenda[0].schedule
+                            place = obj_signUpSchedule.count
+                            place = eval(place)
+                            place = len(place)
 
-                list_date['date'] = date
-                list_date['time'] = time
-                list_date['agendaPk'] = agenda_topic_pk
-                list_date['room_name'] = room_name
-                list_date['places'] = place
+                        else:
+                            place = 0
 
-                dates.append(list_date)
+                        place = capacity - place
 
-                after_date = date
-            list_town['schedule'] = dates
-            list_time = {}
+                    date = str(obj_agenda[0].date)
+                    time = obj_agenda[0].schedule
 
-            schedules.append(list_town)
+                    list_date['date'] = date
+                    list_date['time'] = time
+                    list_date['agendaPk'] = agenda_topic_pk
+                    list_date['room_name'] = room_name
+                    list_date['places'] = place
+                    dates.append(list_date)
 
+                    after_date = date
+                list_town['schedule'] = dates
+                list_time = {}
 
-            """except Exception as e:
+                schedules.append(list_town)
+
+            except Exception as e:
 
                 is_error = True
                 message = "error en el sistema por favor comuniquese con soporte"
-                response_data['type_error'] = type(e).__name__"""
+                response_data['type_error'] = type(e).__name__
 
             response_data['message'] = message
             response_data['is_error'] = is_error

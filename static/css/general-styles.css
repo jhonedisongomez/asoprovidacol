@@ -5,19 +5,6 @@ html,body
 	padding: 0;
 }
 
-body
-{
-	/*display: table;*/
-	width: 100%;
-	background: #eee;
-
-	background-image: url("http://localhost:8000/static/img/peresoso.jpeg");
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-color: #464646;
-	background-size: cover;
-}
 paper-toolbar.main{
   background: rgb(34, 198, 30);
 }
@@ -100,9 +87,10 @@ paper-scroll-header-panel {
   height: 100%;
 }
 p{
-	color: rgb(49, 62, 45);
+	/*color: rgb(49, 62, 45);*/
+	color: #d6f5ed;
 	font-family: "times", "courier", "arial";
-	font-size: 1.4em;
+	font-size: 30px;
 }
 
 .paper-card-0 {
@@ -139,4 +127,9 @@ p{
 	background: white none repeat scroll 0% 0%;
 	position: initial;
 	/*margin-top: -20px;*/
+}
+h1,h2{
+	font-family: 'times', 'courier', 'arial';
+	color: #fff;
+	font-size:50px;
 }

@@ -40,7 +40,7 @@ class section(models.Model):
 
 class sectionType(models.Model):
 
-    section_type_Code = models.CharField(max_length = 64, default = uuid.uuid4, blank = False,null = True)
+    section_type_code = models.CharField(max_length = 64, default = uuid.uuid4, blank = False,null = True)
     section_type_name = models.CharField(max_length = 40, blank = False, null = True)
     active = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now = True,blank = False)

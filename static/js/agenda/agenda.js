@@ -24,8 +24,6 @@ function createDate()
         document.getElementById("input-date").value = "";
         document.getElementById("input-from-time").value = "";
         document.getElementById("input-to-time").value = "";
-        document.getElementById("csrfmiddlewaretoken").value = "";
-
 
 
       }else

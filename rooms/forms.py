@@ -4,8 +4,8 @@ from country.models import section, sectionType
 
 class ListMunicipio(forms.ModelForm):
 
-    obj_section_type = ""
-    #obj_section_type = sectionType.objects.filter(section_type_name = "Municipio", active = True)
+    #obj_section_type = ""
+    obj_section_type = sectionType.objects.filter(section_type_name = "Municipio", active = True)
     if obj_section_type:
 
         section_type_code = obj_section_type[0].section_type_code

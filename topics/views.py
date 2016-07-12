@@ -81,7 +81,7 @@ class CreateTopicView(LoginRequiredMixin, TemplateView):
         user = request.user
         obj_topic = Topic()
         obj_topic.topic_name = topic_name
-        obj_topic.professor_name = professor_name
+        obj_topic.profesor_name = professor_name
         obj_topic.description = description
         obj_topic.fk_user_created = user
         obj_topic.save()

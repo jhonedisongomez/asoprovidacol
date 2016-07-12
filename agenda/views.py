@@ -253,7 +253,6 @@ class AgendaView(TemplateView):
                 activities_code = obj_activities[0].activities_code
 
                 obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
-
                 for ix_act_room, act_room in enumerate(obj_activity_room):
 
                     list_town = {}
@@ -276,7 +275,6 @@ class AgendaView(TemplateView):
                     list_town['town'] = town
 
                     obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
-
                     for ix_act_room,val_act_room in enumerate(obj_activity_room):
                         list_date = {}
 
@@ -284,8 +282,12 @@ class AgendaView(TemplateView):
                         topic_code = val_act_room.fk_topic_code
                         obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
                         topic_name = obj_topic[0].topic_name
+                        topic_description = obj_topic[0].description
+                        professor = obj_topic[0].profesor_name
 
                         list_date['topic'] = topic_name
+                        list_date['description'] = topic_description
+                        list_date['professor'] = professor
 
                         obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
                         agenda_topic_pk = obj_topic_agenda[0].pk
@@ -307,21 +309,23 @@ class AgendaView(TemplateView):
 
                         place = capacity - place
 
-                    date = str(obj_agenda[0].date)
-                    time = obj_agenda[0].schedule
+                        date = str(obj_agenda[0].date)
+                        time = obj_agenda[0].schedule
 
-                    list_date['date'] = date
-                    list_date['time'] = time
-                    list_date['agendaPk'] = agenda_topic_pk
-                    list_date['room_name'] = room_name
-                    list_date['places'] = place
-                    dates.append(list_date)
+                        list_date['date'] = date
+                        list_date['time'] = time
+                        list_date['agendaPk'] = agenda_topic_pk
+                        list_date['room_name'] = room_name
+                        list_date['places'] = place
+                        dates.append(list_date)
 
                     after_date = date
-                list_town['schedule'] = dates
-                list_time = {}
+                    list_town['schedule'] = dates
+                    agendas.append(list_town)
 
-                schedules.append(list_town)
+                list_time = {}
+                list_agenda['agenda'] = agendas
+                schedules.append(list_agenda)
 
             except Exception as e:
 
@@ -481,9 +485,7 @@ class ListScheduleView(TemplateView):
 
                     agenda_data = {}
                     activity_room_code = valActRoom.activity_room_code
-                    print activity_room_code
                     obj_topic_agenda = TopicAgenda.objects.filter(active = True, fk_activity_room_code = activity_room_code)
-                    print obj_topic_agenda
                     agenda_code = obj_topic_agenda[0].fk_agenda_code
                     obj_agenda = Agenda.objects.filter(agenda_code = agenda_code, active = True)
 

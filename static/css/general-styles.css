@@ -88,9 +88,10 @@ paper-scroll-header-panel {
 }
 p{
 	/*color: rgb(49, 62, 45);*/
-	color: #d6f5ed;
+	color: #fff;
 	font-family: "times", "courier", "arial";
 	font-size: 30px;
+	font-weight: 600;
 }
 
 .paper-card-0 {

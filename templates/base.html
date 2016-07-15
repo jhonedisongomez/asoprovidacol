@@ -74,26 +74,19 @@
             </paper-menu>
           </paper-submenu>
 
-          <paper-submenu>
+            <paper-item onclick="">Nuestros proyectos</paper-item>
+            <paper-item onclick="">Multimedia</paper-item>
+            <paper-item onclick="">Asocampus</paper-item>
+            <paper-item onclick="">Donaciones</paper-item>
+
             {% if user.is_authenticated %}
-            <paper-item class="menu-trigger"><iron-icon icon="icons:menu"></iron-icon>{{user.username}}</paper-item>
-            <paper-menu class="menu-content">
-
-
-                <a class="url" href="{% url 'logout' %}">
-                  <paper-item>Cerrar Sesion</paper-item>
-                </a>
-              {% else %}
-                <paper-item class="menu-trigger"><iron-icon icon="icons:menu"></iron-icon>usuario</paper-item>
-                <paper-menu class="menu-content">
-                  <paper-item onclick="signInTemplate(1)">Iniciar Sesion</paper-item>
-
-
-              {% endif %}
-
-            </paper-menu>
-          </paper-submenu>
-
+            <paper-item onclick="">{{user.username}}</paper-item>
+            <a class="url" href="{% url 'logout' %}">
+              <paper-item>Cerrar Sesion</paper-item>
+            </a>
+            {% else %}
+            <paper-item onclick="signInTemplate(1)">Iniciar sesion</paper-item>
+            {% endif %}
         </paper-menu>
 
       </div>
@@ -105,20 +98,19 @@
 
         </paper-toolbar>
         
-
         <div class="content" style="background: transparent url({% static 'img/pattern.png' %}) ">
 
           {% block content %}	{% endblock %}
           <navegator-pages></navegator-pages>
         </div>
 
-        <footer class="clase-general">
+        <div class="clase-general">
 
           {% block footer %}
 
           {% endblock %}
 
-        </footer>
+        </div>
 
         </paper-scroll-header-panel>
 

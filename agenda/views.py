@@ -177,7 +177,7 @@ class AgendaViewUser(TemplateView, LoginRequiredMixin):
 
     template_name = "agenda/activities-agenda.html"
     form_class = ""
-    login_url = "/"
+    #login_url = "/"
 
     #def get(self, request, *args, **kwargs):
 
@@ -361,7 +361,7 @@ class AgendaView(TemplateView):
 class CreateDateView(TemplateView, LoginRequiredMixin):
 
     template_name = "agenda/create-date.html"
-    login_url = "/"
+    login_url = "/asocampus/"
     form_class = ""
 
     def get(self, request, *args, ** kwargs):
@@ -411,7 +411,7 @@ class CreateAgendaView(TemplateView, LoginRequiredMixin):
 
     template_name = "agenda/create-agenda.html"
     form_class = CreateAgendaForm()
-    login_url = "/"
+    #login_url = "/"
 
     def get(self, request, *args, **kwargs):
 

@@ -15,7 +15,7 @@ from activities.models import Activities
 class CreateActivity(TemplateView, LoginRequiredMixin):
 
     template_name = "activities/create-activity.html"
-    login_url = "/"
+    #login_url = "/"
     form_class = CreateActivityRoomForm()
 
     def get(self, request, *args, **kwargs):
@@ -67,7 +67,7 @@ class CreateActivity(TemplateView, LoginRequiredMixin):
 class CreateTopicView(LoginRequiredMixin, TemplateView):
 
     template_name = "topics/create-topic.html"
-    login_url = "/index/"
+    #login_url = "/index/"
 
     def post(self, request, *args, **kwargs):
 

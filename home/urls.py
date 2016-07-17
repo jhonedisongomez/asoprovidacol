@@ -14,7 +14,8 @@ urlpatterns = [
 
 	url(r'^sign-up/$' , SignUpView.as_view(),name='sign-up'),
 	url(r'^sign-in/$' , SignInView.as_view(),name='sign-in'),
-	url(r'^asocampus/$' , AsocampusIndex.as_view(),name='asocampus'),
+	url(r'asocampus/$' , AsocampusIndex.as_view(),name='asocampus'),
+
 
 
 ]

@@ -14,7 +14,7 @@ class ListRoomView(LoginRequiredMixin, TemplateView):
 
     template_name = "activities/verify-sign-up-activity.html"
     form_class = ""
-    login_url = "/"
+    #login_url = "/"
 
     def get(self, request, *args, **kwargs):
 
@@ -60,7 +60,7 @@ class ListRoomView(LoginRequiredMixin, TemplateView):
 class CreateRoomView(LoginRequiredMixin, TemplateView):
 
     template_name = "rooms/create-room.html"
-    login_url = "/"
+    #login_url = "/"
     form_class = ListMunicipio()
 
     def get(self, request, *args, **kwargs):

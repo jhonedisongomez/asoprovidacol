@@ -66,7 +66,7 @@
                 Congreso 2016</paper-item>
             <paper-menu class="menu-content">
 
-              <paper-item onclick="signInTemplate(3)">Informacion</paper-item>
+              <paper-item onclick="signInTemplate(3)">Información e inscripciones</paper-item>
               <paper-item onclick="signInTemplate(4)">Agenda General</paper-item>
               <paper-item>Mi agenda</paper-item>
               <paper-item>Nuestros Aliados</paper-item>
@@ -76,7 +76,9 @@
 
             <paper-item onclick="">Nuestros proyectos</paper-item>
             <paper-item onclick="">Multimedia</paper-item>
-            <paper-item onclick="">Asocampus</paper-item>
+            <a class="url" href="{% url 'asocampus' %}">
+              <paper-item onclick="">Asocampus</paper-item>
+            </a>
             <paper-item onclick="">Donaciones</paper-item>
 
             {% if user.is_authenticated %}
@@ -97,7 +99,7 @@
             <span onclick="signInTemplate(0)" title class="flex">Asoprovida Asociacion protectora a la vida</span>
 
         </paper-toolbar>
-        
+
         <div class="content" style="background: transparent url({% static 'img/pattern.png' %}) ">
 
           {% block content %}	{% endblock %}

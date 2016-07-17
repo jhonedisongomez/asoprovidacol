@@ -7,11 +7,17 @@
     <title>ASOCAMPUS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% load static from staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/asocampus-login.css' %}" id="asocampus-css">
     <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap.css' %}" id="bootstrap-css">
+
     <style type="text/css">
 
 
     </style>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
 
     {% load static from staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
@@ -24,6 +30,8 @@
     <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'js/jquery-ui.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
+
+
 
     <script type="text/javascript">
         window.alert = function(){};
@@ -41,76 +49,211 @@
 </head>
 <body>
 
+  <style media="screen">
+  .background{
+    background: url("{% static 'img/cano-cristales.jpg'  %}");
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    z-index: -10;
+  }
 
-<div class="nav-side-menu">
-    <div class="brand">CAMPUS VIRTUAL DE ASOPROVIDA</div>
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+  </style>
 
-        <div class="menu-list">
+{% if user.is_authenticated %}
+  <div class="nav-side-menu">
+      <div class="brand">CAMPUS VIRTUAL DE ASOPROVIDA</div>
+      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
-            <ul id="menu-content" class="menu-content collapse out">
-                <li>
-                  <a href="#">
-                  <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                  </a>
-                </li>
+          <div class="menu-list">
 
-                <li data-toggle="collapse" data-target="#products" class="collapsed active">
-                  <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="products">
-                    <li ><a href="{% url 'create-activity-thopic' %}">crear actividades por tema</a></li>
-                    <li><a href="{% url 'verify-sign-up-activity' %}">Verificar asistencia</a></li>
-                </ul>
-
-
-                <li data-toggle="collapse" data-target="#service" class="collapsed">
-                  <a href="#"><i class="fa fa-globe fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="service">
-                  <li><a href="{% url 'create-topic' %}">Crear tema</a></li>
-
-                </ul>
-
-
-                <li data-toggle="collapse" data-target="#new" class="collapsed">
-                  <a href="#"><i class="fa fa-university fa-lg"></i> Aulas o Auditorios <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="new">
-                  <li><a href="{% url 'create-room' %}">Crear nueva aula o auditorio</a></li>
-                  <li>New New 2</li>
-                  <li>New New 3</li>
-                </ul>
-
-
-                 <li>
-                  <a href="#">
-                  <i class="fa fa-user fa-lg"></i> Profile
-                  </a>
+              <ul id="menu-content" class="menu-content collapse out">
+                  <li>
+                    <a href="#">
+                    <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                    </a>
                   </li>
 
+                  <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                    <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
+                  </li>
+                  <ul class="sub-menu collapse" id="products">
+                      <li ><a href="{% url 'create-activity-thopic' %}">crear actividades por tema</a></li>
+                      <li><a href="{% url 'verify-sign-up-activity' %}">Verificar asistencia</a></li>
+                  </ul>
 
-                <li data-toggle="collapse" data-target="#thopic" class="collapsed">
-                  <a href="#"><i class="fa fa-clock-o fa-lg"></i> Agenda <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="thopic">
-                  <li><a href="{% url 'create-date' %}">Crear fechas</a></li>
-                  <li><a href="{% url 'create-agenda' %}">Crear agenda</a></li>
-                </ul>
-            </ul>
-     </div>
+
+                  <li data-toggle="collapse" data-target="#service" class="collapsed">
+                    <a href="#"><i class="fa fa-globe fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
+                  </li>
+                  <ul class="sub-menu collapse" id="service">
+                    <li><a href="{% url 'create-topic' %}">Crear tema</a></li>
+
+                  </ul>
+
+
+                  <li data-toggle="collapse" data-target="#new" class="collapsed">
+                    <a href="#"><i class="fa fa-university fa-lg"></i> Aulas o Auditorios <span class="arrow"></span></a>
+                  </li>
+                  <ul class="sub-menu collapse" id="new">
+                    <li><a href="{% url 'create-room' %}">Crear nueva aula o auditorio</a></li>
+                    <li>New New 2</li>
+                    <li>New New 3</li>
+                  </ul>
+
+                    <li data-toggle="collapse" data-target="#profile" class="collapsed">
+                      <a href="#"><i class="fa fa-user fa-lg"></i> Mi perfil<span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="profile">
+                      <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
+
+                    </ul>
+
+
+                  <li data-toggle="collapse" data-target="#thopic" class="collapsed">
+                    <a href="#"><i class="fa fa-clock-o fa-lg"></i> Agenda <span class="arrow"></span></a>
+                  </li>
+                  <ul class="sub-menu collapse" id="thopic">
+                    <li><a href="{% url 'create-date' %}">Crear fechas</a></li>
+                    <li><a href="{% url 'create-agenda' %}">Crear agenda</a></li>
+                  </ul>
+              </ul>
+       </div>
+
+  </div>
+  <div class="content">
+      {% block content %} {% endblock %}
+
+  </div>
+    <footer class="clase-general">
+
+      {% block footer %}
+
+      {% endblock %}
+
+    </footer>
+{% else %}
+
+    <head>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<div class="wrapper">
+  <div class="background"></div>
+  <div class="auth opa">
+     <div class="image-size">
+
+ </div>
+  <div class="login-title">
+      <h3>Bienvenido a ASOCAMPUS!</h3>
+  </div>
+ <div class="inputWrapper">
+      <div class="user-icon">
+      <i class="fa fa-user fa-fw"></i>
+      </div>
+      <input type="text" class="username" id="username-asocampus" placeholder="Nombre de usuario"/>
+      <div class="user-icon">
+      <i class="fa fa-key fa-fw"></i>
+      </div>
+      <input type="password" class="password" id="password-asocampus" placeholder="Contraseña"/>
+      <button type="button" id="btn-login-asocampus" class="btn btn-login" onclick = "signIn()" value="Iniciar sesion">Login</button>
+      <div class="forget">
+        <p>
+          Forget your password?
+          <span><a href="#">sign up</a></span>
+        </p>
+      </div>
+    </div>
+    <div class="overlay">
+      <div class="profile">
+        <div class="overlay-color"></div>
+      </div>
+      <div class="profile-left">
+        <h5>Date</h5>
+        <span>May 10th, 2015</span>
+      </div>
+      <div class="profile-right">
+        <h5>Team</h5>
+        <span>Management</span>
+      </div>
+      <div class="tasks">
+        <div class="task">
+          <img src="http://www.freedigitalphotos.net/images/gallery-thumbnails.php?id=54012690482861871531622583" alt="" class="task-pic"/>
+          <h3>Meeting!</h3>
+          <span><i class="fa fa-clock-o"></i>9:00 AM</span>
+        </div>
+        <div class="task">
+          <img src="http://www.freedigitalphotos.net/images/gallery-thumbnails.php?id=1309949958494783511039444" alt="" class="task-pic"/>
+          <h3>More Meeting!</h3>
+          <span><i class="fa fa-clock-o"></i>12:00 PM</span>
+        </div>
+        <div class="task">
+          <img src="http://pixabay.com/static/uploads/photo/2015/04/20/13/41/person-731479_640.jpg" alt="" class="task-pic"/>
+          <h3>Meeting Again!?</h3>
+          <span><i class="fa fa-clock-o"></i>15:00 PM</span>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="no">
+          <h3>Thanks for login</h3>
+        </div>
+      <div class="bottom-button">
+      </div>
+      </div>
+    </div>
+  </div>
 
 </div>
-<div class="content">
-    {% block content %} {% endblock %}
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-</div>
-  <footer class="clase-general">
+    <script src="js/index.js"></script>
+    <script type="text/javascript">
 
-    {% block footer %}
+    function signIn()
+    {
+      var getUsername = document.getElementById("username-asocampus");
+      var getPassword = document.getElementById("password-asocampus");
+      var username = getUsername.value;
+      var password = getPassword.value;
+        $.ajax({
+          type: 'get',
+          data: {'username':username,'password':password},
+          url: '/sign-in/',
 
-    {% endblock %}
+          success: function(response)
+          {
+            var isError = response.is_error;
+            var message = response.message;
 
-  </footer>
+            if(!isError)
+            {
+              var authenticated = response.authenticated;
 
+              if(!authenticated)
+              {
+                console.log(message);
+              }else
+              {
+                var url = document.URL;
+                window.location.replace(url);
+              }
+
+            }else{
+              alert(message);
+            }
+          }
+
+        });
+      }
+
+
+    </script>
+
+
+
+{% endif %}
 </body></html>

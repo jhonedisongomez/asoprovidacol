@@ -148,6 +148,7 @@ class SignInView(TemplateView):
             return render_to_response(template, dic,context_instance)
 
 
-class AsocampusIndex(LoginRequiredMixin,TemplateView):
+class AsocampusIndex(TemplateView):
+
     template_name = "asocampus-base.html"
-    login_url = '/index/'
+    #login_url = "/"

@@ -16,14 +16,13 @@
 
       <form is="iron-form" id="sign-up-form" disabled="disabled">
 
-        <paper-input readonly="true" id="first_name" required auto-validate error-message="Por favor escriba un nombre" label="Nombres"></paper-input>
-        <paper-input readonly="true" id="last_name" required auto-validate error-message="Por favor escriba un apellido" label="Apellidos"></paper-input>
+        <paper-input  id="first_name" required auto-validate error-message="Por favor escriba un nombre" label="Nombres"></paper-input>
+        <paper-input  id="last_name" required auto-validate error-message="Por favor escriba un apellido" label="Apellidos"></paper-input>
 
-        <paper-input readonly="true" id="password" required auto-validate error-message="Escriba una contraseña" label="Contraseña"type="password"></paper-input>
-        <paper-input readonly="true" id="again_password" required auto-validate error-message="Escriba una contraseña" label="Validar Contraseña"type="password"></paper-input>
+        <paper-input  id="password" required auto-validate error-message="Escriba una contraseña" label="Contraseña"type="password"></paper-input>
+        <paper-input  id="again_password" required auto-validate error-message="Escriba una contraseña" label="Validar Contraseña"type="password"></paper-input>
         <br>
-        <paper-button disabled="disabled" id="save_form" raised onclick="signUp()">Registrar</paper-button>
-        <paper-button disabled="disabled" id="cancel"raised onclick="">Cancelar</paper-button>
+        <paper-button  id="save_form" raised onclick="signUp()">Registrar</paper-button>
 
       </form>
       <paper-item>
@@ -44,76 +43,17 @@
 
     }
   });
-
-  function searchEmail()
-  {
-    var getEmail = document.getElementById("email");
-    var validateEmail = getEmail.validate();
-    if(validateEmail)
-    {
-      var email = getEmail.value;
-
-      $.ajax({
-
-        type: 'get',
-        data:{'email': email},
-        url: '/sign-up/',
-        success: function(response)
-        {
-          var isError = response.is_error;
-          var message = response.message;
-
-          if(!isError)
-          {
-            var exist = response.exist;
-            if(exist)
-            {
-              document.getElementById("first_name").readonly = true;
-              document.getElementById("last_name").readonly = true;
-              document.getElementById("password").readonly = true;
-              document.getElementById("again_password").readonly = true;
-              document.getElementById("save_form").disabled = true;
-              document.getElementById("cancel").disabled = true;
-
-
-              alert(message);
-            }else
-            {
-              document.getElementById("first_name").readonly = false
-              document.getElementById("last_name").readonly = false
-              document.getElementById("password").readonly = false
-              document.getElementById("again_password").readonly = false
-              document.getElementById("save_form").disabled = false
-              document.getElementById("cancel").disabled = false
-              alert(message);
-
-              /*var nameMatch = email.match(/^([^@]*)@/);
-              var name = nameMatch ? nameMatch[1] : null;
-              document.getElementById("username").value = name;*/
-            }
-          }else
-          {
-            alert(message);
-          }
-        }
-
-      });
-    }
-  }
-
   function signUp()
   {
     var getEmail = document.getElementById("email");
     var getFirstName = document.getElementById("first_name");
     var getLastName = document.getElementById("last_name");
-    //var getUsername = document.getElementById("username");
     var getPassword = document.getElementById("password");
     var getAgainPassword = document.getElementById("again_password");
 
     var validateEmail = getEmail.validate();
     var validateFirstName = getFirstName.validate();
     var validateLastName = getLastName.validate();
-    //var validateUsername = getUsername.validate();
     var validatePassword = getPassword.validate();
     var validateAgainPassword = getAgainPassword.validate();
 
@@ -121,25 +61,12 @@
     {
       if(validateEmail && validateFirstName && validateLastName && validatePassword && validateAgainPassword)
       {
-
         var email = getEmail.value;
-        var firstName = getFirstName.value;
-        var lastName = getLastName.value;
-        //var username = getUsername.value;
-        var password = getPassword.value;
-        var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
-
         $.ajax({
 
-          type: 'post',
-          data:{'email':email,
-                'first_name':firstName,
-                'last_name':lastName,
-                'password':password,
-                'csrfmiddlewaretoken': csrftoken},
-
+          type: 'get',
+          data:{'email': email},
           url: '/sign-up/',
-
           success: function(response)
           {
             var isError = response.is_error;
@@ -147,28 +74,58 @@
 
             if(!isError)
             {
+              var exist = response.exist;
+              if(exist)
+              {
+                alert(message);
 
-              document.getElementById("first_name").readonly = true;
-              document.getElementById("last_name").readonly = true;
-              document.getElementById("password").readonly = true;
-              document.getElementById("again_password").readonly = true;
-              document.getElementById("save_form").disabled = true;
-              document.getElementById("cancel").disabled = true;
+              }else
+              {
+                var firstName = getFirstName.value;
+                var lastName = getLastName.value;
+                var password = getPassword.value;
+                var csrftoken = document.getElementById("csrfmiddlewaretoken").value;
 
-              document.getElementById("first_name").value = "";
-              document.getElementById("last_name").value = "";
-              document.getElementById("password").value = "";
-              document.getElementById("again_password").value = "";
+                $.ajax({
 
-              alert(message);
+                  type: 'post',
+                  data:{'email':email,
+                        'first_name':firstName,
+                        'last_name':lastName,
+                        'password':password,
+                        'csrfmiddlewaretoken': csrftoken},
 
+                  url: '/sign-up/',
+
+                  success: function(response)
+                  {
+                    var isError = response.is_error;
+                    var message = response.message;
+
+                    if(!isError)
+                    {
+
+                      document.getElementById("first_name").value = "";
+                      document.getElementById("last_name").value = "";
+                      document.getElementById("password").value = "";
+                      document.getElementById("again_password").value = "";
+
+                      alert(message);
+
+                    }else
+                    {
+                      alert(message);
+                    }
+                  }
+                });
+              }
             }else
             {
               alert(message);
             }
           }
-        });
 
+        });
       }
 
 

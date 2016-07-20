@@ -65,6 +65,7 @@ def reservarCupo(self):
 
                         obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
                         count_sign_up = obj_signUpSchedule.count
+                        count_sign_up = eval(count_sign_up)
                         count_sign_up = len(count_sign_up)
 
                         if count_sign_up == capacity:
@@ -73,9 +74,9 @@ def reservarCupo(self):
                         else:
 
                             count_sign_up = obj_signUpSchedule.count
-                            count_sign_up = list(count_sign_up)
-                            count_sign_up.append(str(len(count_sign_up) + 1))
-                            count_sign_up = str(count_sign_up)
+                            count_sign_up = eval(count_sign_up)
+                            count_sign_up.append(len(count_sign_up) + 1)
+                            #count_sign_up = str(count_sign_up)
 
                             obj_signUpSchedule = SignUpSchedule()
                             obj_signUpSchedule.count = count_sign_up
@@ -87,7 +88,7 @@ def reservarCupo(self):
                             message = "se ha separado el cupo para este evento"
                     else:
 
-                        count_sign_up = ['1']
+                        count_sign_up = [1]
                         count_sign_up = str(count_sign_up)
 
                         obj_signUpSchedule = SignUpSchedule()

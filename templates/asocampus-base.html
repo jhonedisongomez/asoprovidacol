@@ -64,8 +64,11 @@
   }
 
   </style>
+{% if user.is_superuser%}
 
 {% if user.is_authenticated %}
+
+
   <div class="nav-side-menu">
       <div class="brand">CAMPUS VIRTUAL DE ASOPROVIDA</div>
       <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -254,6 +257,13 @@
     </script>
 
 
+
+{% endif %}
+{% else %}
+<h1>usted no tiene acceso a esta pagina</h1>
+<footer class="clase-general">
+
+</footer>
 
 {% endif %}
 </body></html>

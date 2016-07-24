@@ -25,6 +25,8 @@ from reportlab.lib.units import mm
 from activities.models import Activities,signUpActivities
 #from agenda.models import TopicAgenda, SignUpSchedule
 
+from reportlab.lib.utils import ImageReader
+
 class DownloadIdCardPdfView(TemplateView):
 
     template_name = 'home/index.html'
@@ -52,6 +54,9 @@ class DownloadIdCardPdfView(TemplateView):
         canvas = Canvas(response)
         canvas.setPageSize((300, 450))
 
+        image = ImageReader('https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-0/p206x206/13419028_989746344471689_3801540286586582921_n.jpg?oh=6cda5970c618fea4bf5d8c3beaf512eb&oe=581D6111&__gda__=1479503095_802d073eeb57c1edb6125384a435df97')
+        canvas.drawImage(image,0,0,300,450)
+
         styles = getSampleStyleSheet()
         styleN = styles['Normal']
         styleH = styles['Heading1']
@@ -61,9 +66,9 @@ class DownloadIdCardPdfView(TemplateView):
 
         canvas.setFont('Helvetica', 12)
 
-        p = Paragraph("II congreso internacional de la red de ongs asoprovida,cambio climatico,soberania y educacion", style=styleH)
-        p.wrapOn(canvas, 280, 150)
-        p.drawOn(canvas, 10,380)
+        #p = Paragraph("II congreso internacional de la red de ongs asoprovida,cambio climatico,soberania y educacion", style=styleH)
+        #p.wrapOn(canvas, 280, 150)
+        #p.drawOn(canvas, 10,380)
         #canvas.drawCentredString(10,400,'')
 
         canvas.drawString(10,300,'NOMBRES:')

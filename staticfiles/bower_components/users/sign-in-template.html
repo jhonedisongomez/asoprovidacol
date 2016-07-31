@@ -1,0 +1,88 @@
+<link rel="import" href="../paper-input/paper-input.html" />
+<link rel="import" href="../paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../iron-icons/iron-icons.html" />
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<dom-module id="sign-in-template">
+
+  <template>
+
+    <div id="sign-in-form" class="user-form">
+      <form is="iron-form">
+
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="username"label="Email"></paper-input>
+        <paper-input required auto-validate error-message="no se permite espacios en blanco" name="password" label="Contraseña" type="password"></paper-input>
+        <paper-item></paper-item>
+        <paper-button raised onclick="signIn()">Ingresar</paper-button>
+
+      </form>
+
+      <paper-item>
+        No estas registrado? <spam onclick="signInTemplate(2)" class="" style="color: rgb(51, 122, 183);">Registrate aqui</spam>
+      </paper-item>
+
+    </div>
+
+
+  </template>
+
+</dom-module>
+
+<script type="text/javascript">
+  Polymer({
+    is: "sign-in-template",
+    properties: {
+
+    },
+    ready: function()
+    {
+
+    }
+  });
+
+  function signIn()
+  {
+
+    var getUsername = document.getElementsByName("username")[0];
+    var getPassword = document.getElementsByName("password")[0];
+    var validateUsername = getUsername.validate();
+    var validatePassword = getPassword.validate();
+
+    if(validateUsername && validatePassword)
+    {
+      var username = getUsername.value;
+      var password = getPassword.value;
+      $.ajax({
+        type: 'get',
+        data: {'username':username,'password':password},
+        url: '/sign-in/',
+
+        success: function(response)
+        {
+          var isError = response.is_error;
+          var message = response.message;
+
+          if(!isError)
+          {
+            var authenticated = response.authenticated;
+
+            if(!authenticated)
+            {
+              alert(message);
+            }else
+            {
+              var url = document.URL;
+              window.location.replace(url);
+            }
+
+          }else{
+            alert(message);
+          }
+        }
+
+      });
+    }
+  }
+
+</script>

@@ -1,0 +1,138 @@
+html,body
+{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+paper-toolbar.main{
+  background: rgb(34, 198, 30);
+}
+.url{
+  text-decoration:none;
+  color:#333;
+
+}
+
+.url-header{
+	text-decoration:none;
+	color:#ffffff;
+}
+.facebook{
+  background: #32569E;
+}
+
+.twitter{
+  background: #55acee;
+}
+
+.sign-in-form{
+
+  padding: 100px;
+  margin: 0;
+  width: 200px;
+}
+
+.user-form{
+	max-width: 300px;
+	height: auto;
+	margin: 0 auto;
+	padding: 0 1%;
+	border-radius: 5px;
+	margin-bottom: 50px;
+	padding: 0px 14%;
+	background: white;
+	margin-top: 130px;
+
+
+}
+
+.clase-general
+{
+	background: #333;
+	height: 100px;
+	border-top: 2px solid #000;
+	width: 100%;
+	position: sticky;
+	bottom: 0;
+}
+
+.img-congress-header{
+
+	height: auto;
+	max-width: 100%;
+	box-shadow: 0px 5px 0 #AAA;
+	margin: -60px 0px 9px 0px
+}
+.image{
+	width: auto;
+	max-height: 300px;
+	overflow: hidden;
+}
+
+paper-toolbar.drawer{
+	background: #06780b;
+}
+
+#drawer{
+	background: #d6f5ed none repeat scroll 0% 0%;
+}
+#menu{
+	background: #d6f5ed none repeat scroll 0% 0%
+}
+
+.menu-trigger{
+
+	background: #d6f5ed none repeat scroll 0% 0%;
+}
+paper-scroll-header-panel {
+  height: 100%;
+}
+p{
+	/*color: rgb(49, 62, 45);*/
+	color: #fff;
+	font-family: "times", "courier", "arial";
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.paper-card-0 {
+    width: 100%;
+}
+.cupo{
+	width: 100%;
+	background: lightblue;
+}
+
+.cancel-cupo{
+	width: 100%;
+	background: lightcoral;
+}
+
+.paper-card-0 .card-actions {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px 16px;
+    position: relative;
+    background: white;
+}
+.paper-card-0 .card-content {
+    padding: 16px;
+    position: relative;
+    font-size: x-large;
+}
+
+.paper-progress-0{
+	width: 100%;
+}
+.content{
+	max-width: 100%;
+	margin: 0px auto;
+	background: white none repeat scroll 0% 0%;
+	position: initial;
+	/*margin-top: -20px;*/
+}
+h1,h2{
+	font-family: 'times', 'courier', 'arial';
+	color: #fff;
+	font-size:50px;
+}

@@ -1,0 +1,55 @@
+<link rel="import" href="../iron-pages/iron-pages.html" />
+<link rel="import" href="index-pages.html" />
+<link rel="import" href="congress-template.html" />
+<link rel="import" href="../users/sign-in-template.html" />
+<link rel="import" href="../users/sign-up-template.html" />
+<link rel="import" href="congress-agenda.html" />
+<link rel="import" href="download-id-card.html" />
+
+<dom-module id="navegator-pages">
+
+  <template>
+
+    <iron-pages selected="0">
+
+      <div><index-pages></index-pages></div>
+      <div><sign-in-template></sign-in-template></div>
+      <div><sign-up-template></sign-up-template></div>
+      <div><congress-template></congress-template></div>
+      <div><congress-agenda></congress-agenda></div>
+      <div><download-id-card></download-id-card></div>
+
+    </iron-pages>
+
+  </template>
+</dom-module>
+
+<script type="text/javascript">
+
+  Polymer({
+    is: "navegator-pages",
+    properties: {
+
+    },
+    ready: function()
+    {
+
+    }
+  });
+  function signInTemplate(pageNumber)
+  {
+    var pages = document.querySelector('iron-pages');
+    if(pageNumber == 4)
+    {
+      var url = ""
+      url = document.URL;
+      var ajaxUrl = "agenda-congreso/?load=true"
+      url = url + ajaxUrl;
+      ajax = document.querySelector('iron-ajax#agenda-congress');
+
+      ajax.url = url
+
+    }
+    pages.select(pageNumber);
+  }
+</script>

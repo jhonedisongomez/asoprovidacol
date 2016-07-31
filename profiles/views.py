@@ -18,6 +18,7 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 from reportlab.lib import colors
 from reportlab.graphics.barcode import code39, code128, code93
 from reportlab.lib.units import mm
+from io import BytesIO
 
 from activities.models import Activities,signUpActivities
 
@@ -41,6 +42,8 @@ class DownloadIdCardPdfView(TemplateView):
         obj_id_card.modified_at = datetime.today()
         obj_id_card.fk_user_modified = user
         obj_id_card.save(update_fields = ['is_downloaded','modified_at','fk_user_modified'])
+
+        buffer = BytesIO()
 
         # Create the HttpResponse object with the appropriate PDF headers.
         response = HttpResponse(content_type='application/pdf')
@@ -68,7 +71,6 @@ class DownloadIdCardPdfView(TemplateView):
         canvas.drawString(10,200,'CORREO:')
         canvas.drawString(90,200,user.get_username())
 
-
         barcode=code128.Code128(sign_up_activity_code,barWidth=0.2*mm,barHeight=15*mm,humanReadable = False)
         barcode.drawOn(canvas,20,100)
 
@@ -79,6 +81,11 @@ class DownloadIdCardPdfView(TemplateView):
         # Close the PDF object cleanly, and we're done.
         canvas.showPage()
         canvas.save()
+
+        # Get the value of the BytesIO buffer and write it to the response.
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
         return response
 
 class SearchIdCardPdfView(TemplateView):

@@ -18,8 +18,7 @@
       Te recomendamos imprimirlo en un material reciclable y en laser para que el codigo de barras pueda ser leido
     </p>
     <p>
-      <b style="color:red;">NOTA:</b> El archivo no se guardara en tu memoria. Da clic derecho y elige la opción guardar como para descargarlo
-      correctamente, si estas en un dipositivo movil, usa el menu para realizar esta misma acción
+      <b style="color:red;">NOTA:</b> La escarapela solo se puede descargar una vez.
     </p>
     <paper-button id="btn-download-id-card" onclick="downLoadIdCard();" raised><iron-icon icon="file-download"></iron-icon>Descargar escarapela</paper-button>
 
@@ -73,8 +72,9 @@
                   success:function(data)
                   {
                     var file = new Blob([data], {type: 'application/pdf'});
-                    var fileURL = URL.createObjectURL(file);
-                    window.open(fileURL);
+                    //var fileURL = URL.createObjectURL(file);
+                    //window.open(fileURL);
+                    saveAs(file,"escarapela-congreso-asoprivida-2016.pdf");
                   }
                 })
               }else

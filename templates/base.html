@@ -24,10 +24,14 @@
   {% load static from staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/general-styles.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+  <link rel="shortcut icon" type="image/png" href="https://pbs.twimg.com/profile_images/603921329868283905/-erJBo9s_normal.png"/>
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
   <script src="{% static 'js/jquery-ui.js' %}"></script>
   <script src="{% static 'js/general-functions.js' %}"></script>
+  <script src="{% static 'js/FileSaver.js' %}"></script>
+
+
 
 <style media="screen">
   body
@@ -68,13 +72,10 @@
 
               <paper-item onclick="signInTemplate(3)">Información e inscripciones</paper-item>
               <paper-item onclick="signInTemplate(4)">Agenda General</paper-item>
-              <paper-item>Mi agenda</paper-item>
-              <paper-item>Nuestros Aliados</paper-item>
               <paper-item onclick="signInTemplate(5)">Imprimir Escarapela</paper-item>
             </paper-menu>
           </paper-submenu>
 
-            <paper-item onclick="">Nuestros proyectos</paper-item>
             <paper-item onclick="">Multimedia</paper-item>
             <a class="url" href="{% url 'asocampus' %}">
               <paper-item onclick="">Asocampus</paper-item>

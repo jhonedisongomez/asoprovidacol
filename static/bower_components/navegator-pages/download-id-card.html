@@ -1,16 +1,28 @@
 <link rel="import" href="../paper-button/paper-button.html" />
+<link rel="import" href="../paper-dialog/paper-dialog.html" />
 
 <dom-module id="download-id-card">
+  <style media="screen">
 
-  <template >
+    #btn-download-id-card{
+      background-color: #ffff;
+    }
+  </style>
+  <template>
+
     <p>
-    recuerda que esta escarapela debes presentarla en los auditorios que separaste el cupo para poder ingresar
+      recuerda que esta escarapela debes presentarla en los auditorios que separaste el cupo para poder ingresar.
     </p>
+
     <p>
       Te recomendamos imprimirlo en un material reciclable y en laser para que el codigo de barras pueda ser leido
     </p>
+    <p>
+      <b style="color:red;">NOTA:</b> El archivo no se guardara en tu memoria. Da clic derecho y elige la opción guardar como para descargarlo
+      correctamente, si estas en un dipositivo movil, usa el menu para realizar esta misma acción
+    </p>
+    <paper-button id="btn-download-id-card" onclick="downLoadIdCard();" raised><iron-icon icon="file-download"></iron-icon>Descargar escarapela</paper-button>
 
-    <paper-button onclick="downLoadIdCard()" raised><iron-icon icon="file-download"></iron-icon>Descargar escarapela</paper-button>
   </template>
 
 </dom-module>
@@ -19,6 +31,10 @@
 
   Polymer({
     is:"download-id-card",
+    properties: {
+
+    },
+
     ready:function(){}
   });
 

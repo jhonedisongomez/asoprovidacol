@@ -19,11 +19,7 @@ from reportlab.lib import colors
 from reportlab.graphics.barcode import code39, code128, code93
 from reportlab.lib.units import mm
 
-
-#from topics.models import Topic, ActivityRoom#, RoomTopic
-#from rooms.models import Room
 from activities.models import Activities,signUpActivities
-#from agenda.models import TopicAgenda, SignUpSchedule
 
 from reportlab.lib.utils import ImageReader
 
@@ -66,17 +62,15 @@ class DownloadIdCardPdfView(TemplateView):
 
         canvas.setFont('Helvetica', 12)
 
-        #p = Paragraph("II congreso internacional de la red de ongs asoprovida,cambio climatico,soberania y educacion", style=styleH)
-        #p.wrapOn(canvas, 280, 150)
-        #p.drawOn(canvas, 10,380)
-        #canvas.drawCentredString(10,400,'')
-
         canvas.drawString(10,300,'NOMBRES:')
         canvas.drawString(80,300,user.get_full_name())
 
+        canvas.drawString(10,200,'CORREO:')
+        canvas.drawString(90,200,user.get_username())
 
-        barcode=code128.Code128("c891ea68-17c5-42d3-a238-815a1aefd701",barWidth=0.2*mm,barHeight=15*mm,humanReadable = False)
-        barcode.drawOn(canvas,10,200)
+
+        barcode=code128.Code128(sign_up_activity_code,barWidth=0.2*mm,barHeight=15*mm,humanReadable = False)
+        barcode.drawOn(canvas,20,100)
 
         canvas.setLineWidth(30)
         canvas.setStrokeColor(colors.green)

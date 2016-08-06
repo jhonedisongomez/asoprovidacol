@@ -30,29 +30,31 @@
   <script src="{% static 'js/jquery-ui.js' %}"></script>
   <script src="{% static 'js/general-functions.js' %}"></script>
   <script src="{% static 'js/FileSaver.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.5/webcomponents.min.js"></script>
 
 
-
-<style media="screen">
-  body
-  {
-    /*display: table;*/
-    width: 100%;
-    background: #eee;
-
-    background-image: url("{% static 'img/peresoso.jpeg' %}");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #464646;
-    background-size: cover;
-  }
-
-</style>
 
     {% block imports %} {% endblock %}
   </head>
+
   <body class="fullbleed layout vertical">
+
+    <style media="screen">
+      body
+      {
+        /*display: table;*/
+        width: 100%;
+        background: #eee;
+
+        background-image: url("{% static 'img/peresoso.jpeg' %}");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #464646;
+        background-size: cover;
+      }
+
+    </style>
     <div style="display:none">
       <input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
   </div>
@@ -76,7 +78,7 @@
             </paper-menu>
           </paper-submenu>
 
-            <paper-item onclick="">Multimedia</paper-item>
+            <paper-item onclick="signInTemplate(6);">Multimedia</paper-item>
             <a class="url" href="{% url 'asocampus' %}">
               <paper-item onclick="">Asocampus</paper-item>
             </a>
@@ -104,6 +106,7 @@
         <div class="content" style="background: transparent url({% static 'img/pattern.png' %}) ">
 
           {% block content %}	{% endblock %}
+
           <navegator-pages></navegator-pages>
         </div>
 

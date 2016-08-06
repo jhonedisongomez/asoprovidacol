@@ -30,31 +30,42 @@ class CreateActivity(TemplateView, LoginRequiredMixin):
         response_data = {}
         message = ""
         is_error = False
+        try:
 
-        obj_activity_room = ActivityRoom()
+            #get the data from the templates
+            room_pk = request.POST['room']
+            activity_pk = request.POST['activity']
+            topic_pk = request.POST['topic']
 
-        #get the data from the templates
-        room_pk = request.POST['room']
-        activity_pk = request.POST['activity']
-        topic_pk = request.POST['topic']
+            obj_room = Room.objects.filter(pk = room_pk)
+            room_code = obj_room[0].room_code
 
-        obj_room = Room.objects.filter(pk = room_pk)
-        room_code = obj_room[0].room_code
+            obj_activity = Activities.objects.filter(pk = activity_pk)
+            activity_code = obj_activity[0].activities_code
 
-        obj_activity = Activities.objects.filter(pk = activity_pk)
-        activity_code = obj_activity[0].activities_code
+            obj_topic = Topic.objects.filter(pk = topic_pk)
+            topic_code = obj_topic[0].topic_code
 
-        obj_topic = Topic.objects.filter(pk = topic_pk)
-        topic_code = obj_topic[0].topic_code
+            obj_activity_room_search = ActivityRoom.objects.filter(active = True,fk_room_code = room_code, fk_activity_code = activity_code, fk_topic_code = topic_code)
 
-        user = request.user
-        obj_activity_room.fk_user_created = user
-        obj_activity_room.fk_room_code = room_code
-        obj_activity_room.fk_activity_code = activity_code
-        obj_activity_room.fk_topic_code = topic_code
-        obj_activity_room.save()
+            if obj_activity_room_search:
+                message = "este tema ya existe con este evento y salon, por favor cree uno nuevo"
+            else:
 
-        message = "se ha creado un nuevo registro en la base de datos"
+                user = request.user
+                obj_activity_room = ActivityRoom()
+                obj_activity_room.fk_user_created = user
+                obj_activity_room.fk_room_code = room_code
+                obj_activity_room.fk_activity_code = activity_code
+                obj_activity_room.fk_topic_code = topic_code
+                obj_activity_room.save()
+
+                message = "se ha creado un nuevo registro en la base de datos"
+        except Exception as e:
+
+            is_error = True
+            message = "error en reservar cupo, por favor comuniquese con soporte"
+            response_data['type_error'] = type(e).__name__
 
         response_data['message'] = message
         response_data['is_error'] = is_error

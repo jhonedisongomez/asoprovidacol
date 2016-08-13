@@ -10,6 +10,7 @@ class Activities(models.Model):
     year = models.CharField(max_length = 10, blank = False, null = False)
     thopic = models.CharField(max_length = 200, blank = False, null = False)
     active = models.BooleanField(default = True)
+    isPaid = models.BooleanField(default = False)# to know if the activity as a price
     created_at = models.DateTimeField(auto_now = True,blank = False)
     fk_user_created = models.ForeignKey(User,related_name ='activity_creator')
     modified_at = models.DateTimeField(null = True, blank = True)

@@ -105,12 +105,14 @@ class SearchIdCardPdfView(TemplateView):
             is_authenticated = False
             is_sign_up = False
 
+            email = request.GET['email']
+            obj_user = User.objects.get(email = email,is_active = True)
             user = request.user
 
             if user.is_authenticated():
 
                 is_authenticated = True
-                obj_sign_up_activity = signUpActivities.objects.filter(fk_user = user, active = True)
+                obj_sign_up_activity = signUpActivities.objects.filter(fk_user = obj_user, active = True)
                 if obj_sign_up_activity:
                     is_sign_up = True
                     sign_up_activity_code = obj_sign_up_activity[0].sign_up_code

@@ -33,6 +33,7 @@ LOCAL_APPS = (
     'pages.apps.PagesConfig',
     'country.apps.CountryConfig',
     'activities.apps.ActivitiesConfig',
+    'payment.apps.PaymentConfig',
 
 
 )

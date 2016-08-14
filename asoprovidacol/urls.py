@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^asocampus/' , include('topics.urls')),
     url(r'^asocampus/' , include('activities.urls')),
     url(r'^asocampus/' , include('rooms.urls')),
+    url(r'^asocampus/' , include('payment.urls')),
     url(r'^' , include('profiles.urls')),
 
 ]

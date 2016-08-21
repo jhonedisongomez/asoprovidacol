@@ -78,6 +78,7 @@ function loadRoom()
 
 function agendaList()
 {
+  document.getElementById("agenda-id").options.length = 0;
   var activitiesPk = document.getElementById("id_activities").value;
   var roomPk = document.getElementById("room_id").value;
 
@@ -121,6 +122,7 @@ function validateSignUpActivity()
   var date = document.getElementById("agenda-id").value;
   var activity = document.getElementById("id_activities").value;
   var roomPk = document.getElementById("room_id").value;
+  var label = document.getElementById("labelMessage");
 
   $.ajax({
     type: 'get',
@@ -133,10 +135,11 @@ function validateSignUpActivity()
 
       if(!isError)
       {
-        console.log(message);
+        label.innerText = message
+        document.getElementById("sign-up-code").value = "";
       }else
       {
-        console.log(message);
+        label.innerText = message;
       }
     }
   });

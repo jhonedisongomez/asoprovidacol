@@ -6,14 +6,14 @@
 
     <title>ASOCAMPUS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src ="../static/bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="../static/bower_components/polymer/polymer.html" />
+        <link rel="import" href="../static/bower_components/paper-dialog/paper-dialog.html" />
+        <link rel="import" href="../static/bower_components/paper-button/paper-button.html" />
+
         {% load static from staticfiles %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/asocampus-login.css' %}" id="asocampus-css">
     <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap.css' %}" id="bootstrap-css">
-
-    <style type="text/css">
-
-
-    </style>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
@@ -31,8 +31,6 @@
     <script src="{% static 'js/jquery-ui.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/FileSaver.js' %}"></script>
-
-
 
     <script type="text/javascript">
         window.alert = function(){};
@@ -65,85 +63,94 @@
   }
 
   </style>
-{% if user.is_superuser%}
+
 
 {% if user.is_authenticated %}
 
+  {% if user.is_superuser%}
 
-  <div class="nav-side-menu">
-      <div class="brand">CAMPUS VIRTUAL DE ASOPROVIDA</div>
-      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <div class="nav-side-menu">
+        <div class="brand">CAMPUS VIRTUAL DE ASOPROVIDA</div>
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
-          <div class="menu-list">
+            <div class="menu-list">
 
-              <ul id="menu-content" class="menu-content collapse out">
-                  <li>
-                    <a href="#">
-                    <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                    </a>
-                  </li>
-
-                  <li data-toggle="collapse" data-target="#products" class="collapsed active">
-                    <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="products">
-                      <li ><a href="{% url 'create-activity-thopic' %}">crear actividades por tema</a></li>
-                      <li><a href="{% url 'verify-sign-up-activity' %}">Verificar asistencia</a></li>
-                  </ul>
-
-
-                  <li data-toggle="collapse" data-target="#service" class="collapsed">
-                    <a href="#"><i class="fa fa-globe fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="service">
-                    <li><a href="{% url 'create-topic' %}">Crear tema</a></li>
-
-                  </ul>
-
-
-                  <li data-toggle="collapse" data-target="#new" class="collapsed">
-                    <a href="#"><i class="fa fa-university fa-lg"></i> Aulas o Auditorios <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="new">
-                    <li><a href="{% url 'create-room' %}">Crear nueva aula o auditorio</a></li>
-                    <li>New New 2</li>
-                    <li>New New 3</li>
-                  </ul>
-
-                    <li data-toggle="collapse" data-target="#profile" class="collapsed">
-                      <a href="#"><i class="fa fa-user fa-lg"></i> Mi perfil<span class="arrow"></span></a>
+                <ul id="menu-content" class="menu-content collapse out">
+                    <li>
+                      <a href="#">
+                      <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                      </a>
                     </li>
-                    <ul class="sub-menu collapse" id="profile">
-                      <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
+
+                    <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                      <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="products">
+                        <li ><a href="{% url 'create-activity-thopic' %}">crear actividades por tema</a></li>
+                        <li><a href="{% url 'verify-sign-up-activity' %}">Verificar asistencia</a></li>
+                        <li><a href="{% url 'payment-activity' %}">verificar pago</a></li>
+                        <li><a href="{% url 'renovate-id-card' %}">Renovar escarapela</a></li>
 
                     </ul>
 
 
-                  <li data-toggle="collapse" data-target="#thopic" class="collapsed">
-                    <a href="#"><i class="fa fa-clock-o fa-lg"></i> Agenda <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="thopic">
-                    <li><a href="{% url 'create-date' %}">Crear fechas</a></li>
-                    <li><a href="{% url 'create-agenda' %}">Crear agenda</a></li>
-                  </ul>
-              </ul>
-       </div>
+                    <li data-toggle="collapse" data-target="#service" class="collapsed">
+                      <a href="#"><i class="fa fa-globe fa-lg"></i> Ponencias o Temas <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="service">
+                      <li><a href="{% url 'create-topic' %}">Crear tema</a></li>
 
-  </div>
-  <div class="content">
-      {% block content %} {% endblock %}
+                    </ul>
 
-  </div>
-    <footer class="clase-general">
 
-      {% block footer %}
+                    <li data-toggle="collapse" data-target="#new" class="collapsed">
+                      <a href="#"><i class="fa fa-university fa-lg"></i> Aulas o Auditorios <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="new">
+                      <li><a href="{% url 'create-room' %}">Crear nueva aula o auditorio</a></li>
+                      <li>New New 2</li>
+                      <li>New New 3</li>
+                    </ul>
 
-      {% endblock %}
+                      <li data-toggle="collapse" data-target="#profile" class="collapsed">
+                        <a href="#"><i class="fa fa-user fa-lg"></i> Mi perfil<span class="arrow"></span></a>
+                      </li>
+                      <ul class="sub-menu collapse" id="profile">
+                        <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
 
-    </footer>
+                      </ul>
+
+
+                    <li data-toggle="collapse" data-target="#thopic" class="collapsed">
+                      <a href="#"><i class="fa fa-clock-o fa-lg"></i> Agenda <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="thopic">
+                      <li><a href="{% url 'create-date' %}">Crear fechas</a></li>
+                      <li><a href="{% url 'create-agenda' %}">Crear agenda</a></li>
+                    </ul>
+                </ul>
+         </div>
+
+    </div>
+    <div class="content">
+        {% block content %} {% endblock %}
+
+    </div>
+      <footer class="clase-general">
+
+        {% block footer %}
+
+        {% endblock %}
+
+      </footer>
+  {% else %}
+
+  <h1>Usted no tiene autorización para esta sección</h1>
+
+  {% endif %}
 {% else %}
+<head>
 
-    <head>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 <div class="wrapper">
@@ -153,7 +160,7 @@
 
  </div>
   <div class="login-title">
-      <h3>Bienvenido a ASOCAMPUS!</h3>
+      <h3 style="font-size:20px;">Bienvenido a ASOCAMPUS!</h3>
   </div>
  <div class="inputWrapper">
       <div class="user-icon">
@@ -166,7 +173,7 @@
       <input type="password" class="password" id="password-asocampus" placeholder="Contraseña"/>
       <button type="button" id="btn-login-asocampus" class="btn btn-login" onclick = "signIn()" value="Iniciar sesion">Login</button>
       <div class="forget">
-        <p>
+        <p style="font-size: 13px;">
           Forget your password?
           <span><a href="#">sign up</a></span>
         </p>
@@ -210,11 +217,15 @@
       </div>
     </div>
   </div>
-
+  <paper-dialog id="modal" modal>
+    <p><label id="message"></label></p>
+    <div class="buttons">
+      <paper-button dialog-confirm autofocus>Tap me to close</paper-button>
+    </div>
+  </paper-dialog>
 </div>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-    <script src="js/index.js"></script>
     <script type="text/javascript">
 
     function signIn()
@@ -239,7 +250,9 @@
 
               if(!authenticated)
               {
-                console.log(message);
+                document.getElementById("message").innerText = message;
+                dialog = document.querySelector("paper-dialog").opened = true;
+
               }else
               {
                 var url = document.URL;
@@ -256,15 +269,6 @@
 
 
     </script>
-
-
-
-{% endif %}
-{% else %}
-<h1>usted no tiene acceso a esta pagina</h1>
-<footer class="clase-general">
-
-</footer>
 
 {% endif %}
 </body></html>

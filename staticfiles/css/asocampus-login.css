@@ -125,7 +125,7 @@ input[placeholder]:focus
 
 #btn-login-asocampus {
   cursor: pointer;
-  font-size: 0.65em;
+  font-size: 20px;
   line-height: 22px;
   font-weight: 300;
   font-family: "Helvetica";

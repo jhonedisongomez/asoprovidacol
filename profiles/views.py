@@ -19,10 +19,58 @@ from reportlab.lib import colors
 from reportlab.graphics.barcode import code39, code128, code93
 from reportlab.lib.units import mm
 from io import BytesIO
-
 from activities.models import Activities,signUpActivities
-
 from reportlab.lib.utils import ImageReader
+from profiles.models import IdCard
+from payment.forms import VerifySignUpForm
+
+def renovateIdCard(request):
+
+    message = ""
+    is_error = False
+    response_data = {}
+
+    email = request.GET['email']
+    activity_pk = request.GET['activity']
+
+    obj_activity = Activities.objects.filter(pk = activity_pk)
+    activity_code = obj_activity[0].activities_code
+
+    #validate if the user exist in the database
+    obj_user = User.objects.filter(email = email,is_active = True)
+    if obj_user:
+
+        user = User.objects.get(pk = obj_user[0].pk)
+
+        obj_sign_up_activity = signUpActivities.objects.filter(active = True,fk_activities_code = activity_code,fk_user = user);
+        if obj_sign_up_activity:
+
+            sign_up_activity_code = obj_sign_up_activity[0].sign_up_code
+
+            obj_id_card = IdCard.objects.get(active = True, fk_sign_activity_code = sign_up_activity_code)
+            obj_id_card.active = False
+            obj_id_card.modified_at = datetime.today()
+            fk_user_modified = request.user
+            obj_id_card.save(update_fields = ['active','modified_at','fk_user_modified'])
+
+            new_id_card = IdCard()
+            new_id_card.fk_user_created = request.user
+            new_id_card.fk_sign_activity_code = sign_up_activity_code
+            new_id_card.save()
+
+            message = "se ha generado una nueva escarapela, en un momento comienza la descarga"
+
+        else:
+
+            message = "este usuario no esta registrado en la base de datos"
+    else:
+
+        message = "este usuario no esta registrado en la base de datos"
+
+    response_data['message'] = message
+    response_data['is_error'] = is_error
+
+    return response_data
 
 class DownloadIdCardPdfView(TemplateView):
 
@@ -150,3 +198,30 @@ class SearchIdCardPdfView(TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+
+
+class IdCardView(TemplateView):
+
+    template_name = "idcards/id-card.html"
+    form_class = VerifySignUpForm()
+
+    def get(self, request, *args, **kwargs):
+
+        if "method" in request.GET:
+
+            response_data = {}
+            method = request.GET['method']
+
+            response_data = eval(method)
+
+            response_json = json.dumps(response_data)
+            content_type = 'application/json'
+            return HttpResponse(response_json, content_type)
+
+
+        else:
+
+            dic = {'form':self.form_class}
+            context_instance = RequestContext(request)
+            template = self.template_name
+            return render_to_response(template, dic,context_instance)

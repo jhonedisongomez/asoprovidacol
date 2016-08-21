@@ -6,13 +6,13 @@
   {% block imports %}
   {% load static from staticfiles %}
   <script src="{% static 'js/payment/payment.js' %}"></script>
-
+  <script src="{% static 'js/idcards/idcards.js' %}"></script>
 
   <form class="form-horizontal" id="create-activity-room">
   <fieldset>
 
   <!-- form to crate a pay -->
-  <legend>Pago de la actividad</legend>
+  <legend>Renovación de escarapela</legend>
 
   <div class="form-group">
     <label class="col-md-2 control-label" for="room">Actividades</label>
@@ -31,7 +31,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" for="btn-save"></label>
     <div class="col-md-8">
-      <input type="button" id="btn-save" class="btn btn-success"  value="Guardar" onclick="validatePersonPay()"></input>
+      <input type="button" id="btn-save" class="btn btn-success"  value="Guardar" onclick="renovateIdCard()"></input>
     </div>
 
     <div class="form-group" >

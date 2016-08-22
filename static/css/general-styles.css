@@ -88,13 +88,7 @@ paper-toolbar.drawer{
 paper-scroll-header-panel {
   height: 100%;
 }
-p{
-	/*color: rgb(49, 62, 45);*/
-	color: #fff;
-	font-family: "times", "courier", "arial";
-	font-size: 30px;
-	font-weight: 600;
-}
+
 
 .paper-card-0 {
     width: 100%;

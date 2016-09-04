@@ -128,3 +128,7 @@ h1,h2{
 	color: #fff;
 	font-size:50px;
 }
+.labelError
+{
+	color: rgb(243, 69, 32);
+}

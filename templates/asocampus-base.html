@@ -31,6 +31,7 @@
     <script src="{% static 'js/jquery-ui.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/FileSaver.js' %}"></script>
+    <script src="{% static 'js/general-functions.js' %}"></script>
 
     <script type="text/javascript">
         window.alert = function(){};
@@ -86,12 +87,15 @@
                       <a href="#"><i class="fa fa-gift fa-lg"></i> Actividades <span class="arrow"></span></a>
                     </li>
                     <ul class="sub-menu collapse" id="products">
+                      {% if user.is_staff %}
                         <li ><a href="{% url 'create-activity-thopic' %}">crear actividades por tema</a></li>
+                      {% endif %}
                         <li><a href="{% url 'verify-sign-up-activity' %}">Verificar asistencia</a></li>
                         <li><a href="{% url 'payment-activity' %}">verificar pago</a></li>
                         <li><a href="{% url 'renovate-id-card' %}">Renovar escarapela</a></li>
 
                     </ul>
+                    {% if user.is_staff %}
 
 
                     <li data-toggle="collapse" data-target="#service" class="collapsed">
@@ -128,6 +132,7 @@
                       <li><a href="{% url 'create-date' %}">Crear fechas</a></li>
                       <li><a href="{% url 'create-agenda' %}">Crear agenda</a></li>
                     </ul>
+                    {% endif %}
                 </ul>
          </div>
 

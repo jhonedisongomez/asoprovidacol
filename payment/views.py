@@ -9,6 +9,7 @@ from braces.views import LoginRequiredMixin
 from .forms import VerifySignUpForm
 from activities.models import signUpActivities, Activities
 from .models import *
+import threading
 
 
 #get functions
@@ -112,8 +113,10 @@ class PaymentView(TemplateView, LoginRequiredMixin):
     template_name = "payment/create-payment.html"
     login_url = "/"
     form_class = VerifySignUpForm()
-
+    lock = threading.Lock()
     def get(self, request, *args, **kwargs):
+
+        self.lock.acquire()
 
         if "method" in request.GET:
 
@@ -130,12 +133,15 @@ class PaymentView(TemplateView, LoginRequiredMixin):
             context_instance = RequestContext(request)
             template = self.template_name
             return render_to_response(template, dic,context_instance)
-
+        lock.release()
+        
     def post(self, request, *args, **kwargs):
 
+        self.lock.acquire()
         method = request.POST['method']
         method = eval(method)
 
         response_json = json.dumps(method)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()

@@ -9,9 +9,13 @@ from django.core.urlresolvers import reverse_lazy
 import json
 from django.contrib.auth.models import User
 from braces.views import LoginRequiredMixin
+import threading
 
 class IndexView(TemplateView):
+    lock = threading.Lock()
+    lock.acquire()
     template_name = 'home/index.html'
+    lock.release()
 
 class SignUpView(TemplateView):
     template_name = "home/sign-up-form.html"
@@ -149,6 +153,8 @@ class SignInView(TemplateView):
 
 
 class AsocampusIndex(TemplateView):
-
+    lock = threading.Lock()
+    lock.acquire()
     template_name = "asocampus-base.html"
     #login_url = "/"
+    lock.release() 

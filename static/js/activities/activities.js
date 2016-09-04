@@ -96,7 +96,10 @@ function agendaList()
       {
         var agendaList = response.list_agenda;
         var combo = document.getElementById("agenda-id");
-
+        var option = document.createElement("option");
+        option.value = "";
+        option.innerHTML = "por favor seleccione una opcion";
+        combo.appendChild(option);
         for(var index = 0; index < agendaList.length; index ++)
         {
           var option = document.createElement("option");
@@ -114,7 +117,71 @@ function agendaList()
   });
 
 }
+function validateForm(){
 
+	var isValidated = false;
+	var countFieldVal = 0;
+	varLabelError = "";
+	var isChecked = false;
+
+	var form = document.getElementById("verify-sign-up-activity");
+	for(var ixForm = 0; ixForm <form.length; ixForm++)
+	{
+		var field = form[ixForm];
+		var tagName = field.tagName;
+
+		if(tagName == "INPUT" || tagName == "SELECT")
+		{
+			var classList = field.classList;
+			for(var ixClass = 0; ixClass < classList.length; ixClass++)
+			{
+				var validateType = classList[ixClass];
+
+
+				switch(validateType)
+				{
+
+					case "isString":
+					case "isNotNull":
+					case "isNumber":
+					case "isEmail":
+					case "isSelected":
+
+						var idField = field.id;
+						var idLabel = idField + "LabelError";
+						labelError = document.getElementById(idLabel);
+
+						dataResponse = generalValidations(field,validateType);
+
+						if(dataResponse.isValid)
+						{
+							countFieldVal++;
+							labelError.innerHTML = "";
+						}else
+						{
+
+							labelError.innerHTML = dataResponse.message;
+							countFieldVal--;
+
+						}
+
+					break;
+				}
+
+			}
+
+		}
+
+	}
+
+	if(countFieldVal == 5)
+	{
+
+		validateSignUpActivity();
+	}
+
+
+}
 
 function validateSignUpActivity()
 {

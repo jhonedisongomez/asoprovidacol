@@ -14,8 +14,8 @@ from .forms import VerifySignUpForm
 from agenda.models import TopicAgenda
 from rooms.models import Room
 from agenda.models import Agenda, SignUpSchedule
-
 from django.contrib.auth.mixins import LoginRequiredMixin
+import threading
 
 
 class ActivitiesView(TemplateView):
@@ -30,7 +30,8 @@ class ActivitiesView(TemplateView):
         return render_to_response(template, dic,context_instance)
 
     def post(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         try:
 
             authenticated = False
@@ -39,12 +40,9 @@ class ActivitiesView(TemplateView):
             is_error = False
 
             user = request.user
-            #obj_user = User.objects.filter(username = username, is_active = True)
 
             if user.is_authenticated():
                 authenticated = True
-
-                #activity_Code = request.POST['activity_Code']
 
                 date = datetime.today()
                 year = str(date.year)
@@ -85,6 +83,7 @@ class ActivitiesView(TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()
 
 
 class VerifySignUpActivity(LoginRequiredMixin,TemplateView):
@@ -98,7 +97,8 @@ class VerifySignUpActivity(LoginRequiredMixin,TemplateView):
         response_data = {}
         is_error = False
         exist = False
-
+        lock = threading.Lock()
+        lock.acquire()
         if 'sign_up_code' in request.GET:
 
             try:
@@ -128,7 +128,7 @@ class VerifySignUpActivity(LoginRequiredMixin,TemplateView):
 
                             topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
                             obj_sign_up_schedule = SignUpSchedule.objects.filter(action = True , fk_sign_up_code = sign_up_code, fk_topic_agenda = topic_agenda_code)
-                            
+
                             if(obj_sign_up_schedule):
 
                                 message = "el asistente ha separado cupo para este evento"
@@ -157,3 +157,4 @@ class VerifySignUpActivity(LoginRequiredMixin,TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()

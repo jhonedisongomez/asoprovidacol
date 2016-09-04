@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.template import RequestContext
 from django.shortcuts import render_to_response,redirect
 from django.contrib.auth import authenticate
@@ -15,9 +16,10 @@ from rooms.models import Room
 from activities.models import Activities,signUpActivities
 from agenda.models import TopicAgenda
 from .forms import CreateAgendaForm
-
 from django.db.models import Count
 from country.models import section
+from payment.models import PaymentPerson
+import threading
 
 def reservarCupo(self):
 
@@ -31,52 +33,69 @@ def reservarCupo(self):
 
         if user.is_authenticated():
 
-            agenda = self.request.POST['agendaId']
-            obj_topic_agenda = TopicAgenda.objects.filter(pk = agenda)
+            obj_payment_person = PaymentPerson.objects.filter(fk_user_paied = user)
 
-            fk_activity_room_code = obj_topic_agenda[0].fk_activity_room_code
-            obj_activity_room = ActivityRoom.objects.filter(activity_room_code = fk_activity_room_code,active = True)
-            room_code = obj_activity_room[0].fk_room_code
+            if obj_payment_person:
 
-            obj_room = Room.objects.filter(room_code = room_code,active = True)
-            capacity = obj_room[0].capacity
+                agenda = self.request.POST['agendaId']
+                obj_topic_agenda = TopicAgenda.objects.filter(pk = agenda)
 
-            topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
+                fk_activity_room_code = obj_topic_agenda[0].fk_activity_room_code
+                obj_activity_room = ActivityRoom.objects.filter(activity_room_code = fk_activity_room_code,active = True)
+                room_code = obj_activity_room[0].fk_room_code
 
-            date = datetime.today()
-            year = date.year
+                obj_room = Room.objects.filter(room_code = room_code,active = True)
+                capacity = obj_room[0].capacity
 
-            obj_activities = Activities.objects.filter(year = year, active = True)
-            activities_code = obj_activities[0].activities_code
+                topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
 
-            obj_sign_up_activities = signUpActivities.objects.filter(active = True,fk_activities_code = activities_code,fk_user = user)
+                date = datetime.today()
+                year = date.year
 
-            if obj_sign_up_activities:
+                obj_activities = Activities.objects.filter(year = year, active = True)
+                activities_code = obj_activities[0].activities_code
 
-                sign_up_code = obj_sign_up_activities[0].sign_up_code
+                obj_sign_up_activities = signUpActivities.objects.filter(active = True,fk_activities_code = activities_code,fk_user = user)
 
-                obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code,fk_sign_up_code = sign_up_code)
-                if obj_signUpSchedule:
+                if obj_sign_up_activities:
 
-                    message = "usted ya se inscribio a esta actividad por favor eliga otra"
-                else:
-                    obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code)
+                    sign_up_code = obj_sign_up_activities[0].sign_up_code
+
+                    obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code,fk_sign_up_code = sign_up_code)
                     if obj_signUpSchedule:
 
-                        obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
-                        count_sign_up = obj_signUpSchedule.count
-                        count_sign_up = eval(count_sign_up)
-                        count_sign_up = len(count_sign_up)
+                        message = "usted ya se inscribio a esta actividad por favor eliga otra"
+                    else:
+                        obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code)
+                        if obj_signUpSchedule:
 
-                        if count_sign_up == capacity:
-
-                            message = "no se puede inscribir a esta actividad, no hay cupos"
-                        else:
-
+                            obj_signUpSchedule = SignUpSchedule.objects.filter(fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
                             count_sign_up = obj_signUpSchedule.count
                             count_sign_up = eval(count_sign_up)
-                            count_sign_up.append(len(count_sign_up) + 1)
-                            #count_sign_up = str(count_sign_up)
+                            count_sign_up = len(count_sign_up)
+
+                            if count_sign_up == capacity:
+
+                                message = "no se puede inscribir a esta actividad, no hay cupos"
+                            else:
+
+                                count_sign_up = obj_signUpSchedule.count
+                                count_sign_up = eval(count_sign_up)
+                                count_sign_up.append(len(count_sign_up) + 1)
+                                #count_sign_up = str(count_sign_up)
+
+                                obj_signUpSchedule = SignUpSchedule()
+                                obj_signUpSchedule.count = count_sign_up
+                                obj_signUpSchedule.fk_user_created = user
+                                obj_signUpSchedule.fk_sign_up_code = sign_up_code
+                                obj_signUpSchedule.fk_topic_agenda = topic_agenda_code
+                                obj_signUpSchedule.save()
+
+                                message = "se ha separado el cupo para este evento"
+                        else:
+
+                            count_sign_up = [1]
+                            count_sign_up = str(count_sign_up)
 
                             obj_signUpSchedule = SignUpSchedule()
                             obj_signUpSchedule.count = count_sign_up
@@ -86,21 +105,11 @@ def reservarCupo(self):
                             obj_signUpSchedule.save()
 
                             message = "se ha separado el cupo para este evento"
-                    else:
-
-                        count_sign_up = [1]
-                        count_sign_up = str(count_sign_up)
-
-                        obj_signUpSchedule = SignUpSchedule()
-                        obj_signUpSchedule.count = count_sign_up
-                        obj_signUpSchedule.fk_user_created = user
-                        obj_signUpSchedule.fk_sign_up_code = sign_up_code
-                        obj_signUpSchedule.fk_topic_agenda = topic_agenda_code
-                        obj_signUpSchedule.save()
-
-                        message = "se ha separado el cupo para este evento"
+                else:
+                    message = "usted no esta inscrito al evento por favor realize esta accion para separar los cupos"
             else:
-                message = "usted no esta inscrito al evento por favor realize esta accion para separar los cupos"
+
+                message = "por favor realize la consignacion en la cuenta bancaria y presentela el dia del evento para poder desbloquearle esta opción"
         else:
 
             message = "por favor inicia sesion o registrate para separar el cupo"
@@ -142,7 +151,7 @@ def cancelarCupo(self):
                 count_sign_up = obj_signUpScheduleCount.count
                 count_sign_up = eval(count_sign_up)
                 count_sign_up.pop()
-            
+
                 obj_signUpSchedule[0].action = False
                 obj_signUpSchedule[0].save(update_fields =['action'])
 
@@ -227,130 +236,135 @@ class AgendaView(TemplateView):
     template_name = "agenda/activities-agenda.html"
     form_class = ""
 
+
     def get(self, request, *args, **kwargs):
+        lock = threading.Lock()
+        lock.acquire()
 
         if "load" in request.GET:
 
-            #try:
-            response_data = {}
-            message = ""
-            is_error = False
-            list_town = {}
-            dates = []
-            list_date = {}
-            after_date = ""
-            list_time = {}
-            times = []
-            schedules = []
-            list_agenda = {}
-            agendas = []
-
-            date = datetime.today()
-            year = date.year
-            obj_activities = Activities.objects.filter(year = year, active = True)
-            activities_code = obj_activities[0].activities_code
-
-            obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
-            for ix_act_room, act_room in enumerate(obj_activity_room):
-
+            try:
+                response_data = {}
+                message = ""
+                is_error = False
                 list_town = {}
                 dates = []
+                list_date = {}
+                after_date = ""
+                list_time = {}
                 times = []
+                schedules = []
+                list_agenda = {}
+                agendas = []
 
-                counter =  act_room['counter']#count the activicy for each topic
+                date = datetime.today()
+                year = date.year
+                obj_activities = Activities.objects.filter(year = year, active = True)
+                activities_code = obj_activities[0].activities_code
 
-                room_code = act_room['fk_room_code']
+                obj_activity_room = ActivityRoom.objects.filter(fk_activity_code = activities_code,active = True).values('fk_room_code').annotate(counter = Count('fk_room_code'))
+                for ix_act_room, act_room in enumerate(obj_activity_room):
 
-                obj_room = Room.objects.filter(room_code = room_code,active = True)
-                room_name = obj_room[0].room_name
-                capacity = obj_room[0].capacity
+                    list_town = {}
+                    dates = []
+                    times = []
 
-                section_code = obj_room[0].fk_section_code
+                    counter =  act_room['counter']#count the activicy for each topic
 
-                obj_section = section.objects.filter(section_code = section_code, active = True)
-                town = obj_section[0].section_name
+                    room_code = act_room['fk_room_code']
 
-                list_town['town'] = town
+                    obj_room = Room.objects.filter(room_code = room_code,active = True)
+                    room_name = obj_room[0].room_name
+                    capacity = obj_room[0].capacity
 
-                obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
-                for ix_act_room,val_act_room in enumerate(obj_activity_room):
-                    list_date = {}
+                    section_code = obj_room[0].fk_section_code
 
-                    activity_room_code = val_act_room.activity_room_code
-                    topic_code = val_act_room.fk_topic_code
-                    obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
-                    topic_name = obj_topic[0].topic_name
-                    topic_description = obj_topic[0].description
-                    professor = obj_topic[0].profesor_name
+                    obj_section = section.objects.filter(section_code = section_code, active = True)
+                    town = obj_section[0].section_name
 
-                    list_date['topic'] = topic_name
-                    list_date['description'] = topic_description
-                    list_date['professor'] = professor
+                    list_town['town'] = town
 
-                    obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
+                    obj_activity_room = ActivityRoom.objects.filter(fk_room_code = room_code , active = True)
+                    for ix_act_room,val_act_room in enumerate(obj_activity_room):
+                        list_date = {}
 
-                    if obj_topic_agenda:
+                        activity_room_code = val_act_room.activity_room_code
+                        topic_code = val_act_room.fk_topic_code
+                        obj_topic = Topic.objects.filter(topic_code = topic_code,active = True)
+                        topic_name = obj_topic[0].topic_name
+                        topic_description = obj_topic[0].description
+                        professor = obj_topic[0].profesor_name
 
-                        agenda_topic_pk = obj_topic_agenda[0].pk
-                        topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
-                        agenda_code = obj_topic_agenda[0].fk_agenda_code
+                        list_date['topic'] = topic_name
+                        list_date['description'] = topic_description
+                        list_date['professor'] = professor
 
-                        obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
-                        obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
-                        if obj_signUpSchedule:
+                        obj_topic_agenda = TopicAgenda.objects.filter(fk_activity_room_code = activity_room_code,active = True)
 
-                            obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
+                        if obj_topic_agenda:
 
-                            place = obj_signUpSchedule.count
-                            place = eval(place)
-                            place = len(place)
+                            agenda_topic_pk = obj_topic_agenda[0].pk
+                            topic_agenda_code = obj_topic_agenda[0].topic_agenda_code
+                            agenda_code = obj_topic_agenda[0].fk_agenda_code
 
-                        else:
-                            place = 0
+                            obj_agenda = Agenda.objects.filter(agenda_code = agenda_code ,active = True)
+                            obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code)
+                            if obj_signUpSchedule:
 
-                        place = capacity - place
+                                obj_signUpSchedule = SignUpSchedule.objects.filter(action = True, fk_topic_agenda = topic_agenda_code).order_by('-id')[0]
 
-                        date = str(obj_agenda[0].date)
-                        time = obj_agenda[0].schedule
+                                place = obj_signUpSchedule.count
+                                place = eval(place)
+                                place = len(place)
 
-                        list_date['date'] = date
-                        list_date['time'] = time
-                        list_date['agendaPk'] = agenda_topic_pk
-                        list_date['room_name'] = room_name
-                        list_date['places'] = place
-                        dates.append(list_date)
+                            else:
+                                place = 0
 
-                after_date = date
-                list_town['schedule'] = dates
-                agendas.append(list_town)
+                            place = capacity - place
 
-            list_time = {}
-            list_agenda['agenda'] = agendas
-            schedules.append(list_agenda)
+                            date = str(obj_agenda[0].date)
+                            time = obj_agenda[0].schedule
 
-            """except Exception as e:
+                            list_date['date'] = date
+                            list_date['time'] = time
+                            list_date['agendaPk'] = agenda_topic_pk
+                            list_date['room_name'] = room_name
+                            list_date['places'] = place
+                            dates.append(list_date)
+
+                    after_date = date
+                    list_town['schedule'] = dates
+                    agendas.append(list_town)
+
+                list_time = {}
+                list_agenda['agenda'] = agendas
+                schedules.append(list_agenda)
+
+            except Exception as e:
 
                 is_error = True
                 message = "error en el sistema por favor comuniquese con soporte"
-                response_data['type_error'] = type(e).__name__"""
+                response_data['type_error'] = type(e).__name__
 
             response_data['message'] = message
             response_data['is_error'] = is_error
             response_data['list_schedule'] = schedules
-
-
             response_json = json.dumps(response_data)
             content_type = 'application/json'
             return HttpResponse(response_json, content_type)
+
+            lock.release()
         else:
 
             dic = {}
             context_instance = RequestContext(request)
             template = self.template_name
             return render_to_response(template, dic,context_instance)
+            self.lock.release()
 
     def post(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         response_data = {}
         method = self.request.POST['method']
 
@@ -358,22 +372,27 @@ class AgendaView(TemplateView):
         content_type = 'application/json'
         response_json = json.dumps(response_data)
         return HttpResponse(response_json, content_type)
+        lock.release()
 
 class CreateDateView(TemplateView, LoginRequiredMixin):
 
     template_name = "agenda/create-date.html"
     login_url = "/asocampus/"
     form_class = ""
+    lock = threading.Lock()
 
     def get(self, request, *args, ** kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         dic = {}
         context_instance = RequestContext(request)
         template = self.template_name
         return render_to_response(template, dic,context_instance)
+        lock.release()
 
     def post(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         try:
 
             response_data = {}
@@ -407,6 +426,7 @@ class CreateDateView(TemplateView, LoginRequiredMixin):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()
 
 class CreateAgendaView(TemplateView, LoginRequiredMixin):
 
@@ -416,14 +436,17 @@ class CreateAgendaView(TemplateView, LoginRequiredMixin):
 
     def get(self, request, *args, **kwargs):
 
+        lock = threading.Lock()
+        lock.acquire()
         dic = {'form': self.form_class}
         context_instance = RequestContext(request)
         template = self.template_name
         return render_to_response(template, dic,context_instance)
-
+        lock.release()
 
     def post(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         try:
 
             response_data = {}
@@ -460,6 +483,7 @@ class CreateAgendaView(TemplateView, LoginRequiredMixin):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()
 
 class ListScheduleView(TemplateView):
 
@@ -472,6 +496,8 @@ class ListScheduleView(TemplateView):
         is_error = False
         response_data = {}
         list_agenda = []
+        lock = threading.Lock()
+        lock.acquire()
         try:
 
             room_id = request.GET['room_pk']
@@ -514,3 +540,4 @@ class ListScheduleView(TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
+        lock.release()

@@ -68,6 +68,7 @@
         </paper-toolbar>
         <paper-menu id="menu">
 
+          <paper-item onclick="signInTemplate(0)">Inicio</paper-item>
           <paper-submenu>
 
             <paper-item class="menu-trigger"> <iron-icon icon="icons:menu"></iron-icon>
@@ -78,20 +79,24 @@
               <paper-item onclick="signInTemplate(4)">Agenda General</paper-item>
             </paper-menu>
           </paper-submenu>
-
-            <paper-item onclick="signInTemplate(6);">Multimedia</paper-item>
-            <a class="url" href="{% url 'asocampus' %}">
-              <paper-item onclick="">Asocampus</paper-item>
-            </a>
-            <paper-item onclick="">Donaciones</paper-item>
+          <paper-item onclick="signInTemplate(7)">Nuestras Sedes</paper-item>
 
             {% if user.is_authenticated %}
-            <paper-item onclick="">{{user.username}}</paper-item>
-            <a class="url" href="{% url 'logout' %}">
-              <paper-item>Cerrar Sesion</paper-item>
-            </a>
+            <paper-submenu>
+
+              <paper-item class="menu-trigger"> <iron-icon icon="icons:menu"></iron-icon>
+                  Mi perfil</paper-item>
+              <paper-menu class="menu-content">
+                <a class="url" href="{% url 'logout' %}">
+                  <paper-item>Cerrar Sesion</paper-item>
+                </a>
+
+              </paper-menu>
+            </paper-submenu>
+
             {% else %}
             <paper-item onclick="signInTemplate(1)">Iniciar sesion</paper-item>
+            <paper-item onclick="signInTemplate(2)">Registrate</paper-item>
             {% endif %}
         </paper-menu>
 
@@ -125,9 +130,9 @@
                     siguenos en:
                   </p>
 
-                  <social-media-icons icon="facebook" color="#3b5998" size="40"></social-media-icons>
-                  <social-media-icons icon="youtube" color="#e52d27" size="40" style="margin-right:40px;margin-left:40px"></social-media-icons>
-                  <social-media-icons icon="twitter" color="#0084b4" size="40"></social-media-icons>
+                  <social-media-icons icon="facebook" color="#3b5998" size="40" href="https://www.facebook.com/asoprovida.asoprovidacolombia"></social-media-icons>
+                  <social-media-icons icon="youtube" color="#e52d27" size="40"  href ="https://www.youtube.com/user/AsoprovidaMaterial"style="margin-right:40px;margin-left:40px"></social-media-icons>
+                  <social-media-icons icon="twitter" color="#0084b4" size="40" href ="https://twitter.com/asoprovida_int"></social-media-icons>
 
 
                 </li>
@@ -138,13 +143,16 @@
                     <p class="" style="font-family: 'Roboto', 'Noto', sans-serif;color:white">
                       servidores en:
                     </p>
+
                     <img src="{% static 'img/immaginare.JPG' %}" alt="" style="width: 150px;height: 60px;"/>
                 </div>
-
 
                 </li>
 
               </ul>
+              <div class="" style="font-size: 10px;color: white;">
+                todos los derechos reservados, tecnology by Jhon Edison Gomez
+              </div>
 
             </div>
 

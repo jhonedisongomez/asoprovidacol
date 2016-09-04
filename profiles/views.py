@@ -78,7 +78,8 @@ class DownloadIdCardPdfView(TemplateView):
     form_class = ""
 
     def get(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         user = request.user
 
         id_card_code = request.GET['id_card_code']
@@ -135,6 +136,7 @@ class DownloadIdCardPdfView(TemplateView):
         buffer.close()
         response.write(pdf)
         return response
+        lock.release()
 
 class SearchIdCardPdfView(TemplateView):
 
@@ -142,6 +144,8 @@ class SearchIdCardPdfView(TemplateView):
     form_class = ""
 
     def get(self, request, *args, **kwargs):
+        lock = threading.Lock()
+        lock.acquire()
 
         try:
 
@@ -198,7 +202,7 @@ class SearchIdCardPdfView(TemplateView):
         response_json = json.dumps(response_data)
         content_type = 'application/json'
         return HttpResponse(response_json, content_type)
-
+        lock.release()
 
 class IdCardView(TemplateView):
 
@@ -206,7 +210,8 @@ class IdCardView(TemplateView):
     form_class = VerifySignUpForm()
 
     def get(self, request, *args, **kwargs):
-
+        lock = threading.Lock()
+        lock.acquire()
         if "method" in request.GET:
 
             response_data = {}
@@ -218,10 +223,10 @@ class IdCardView(TemplateView):
             content_type = 'application/json'
             return HttpResponse(response_json, content_type)
 
-
         else:
 
             dic = {'form':self.form_class}
             context_instance = RequestContext(request)
             template = self.template_name
             return render_to_response(template, dic,context_instance)
+            lock.release()

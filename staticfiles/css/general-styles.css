@@ -132,3 +132,24 @@ h1,h2{
 {
 	color: rgb(243, 69, 32);
 }
+
+.facebook-icon{
+	background: white;
+	height: 40px;
+	position: absolute;
+	border-radius: 7px;
+}
+.youtube-icon{
+	background: white;
+	position: absolute;
+	margin-left: 51px;
+	border-radius: 21px;
+	height: 29px;
+	width: 39px;
+}
+
+.twitter-icon{
+	position: absolute;
+	height: 40px;
+	margin-left: 114px;
+}
